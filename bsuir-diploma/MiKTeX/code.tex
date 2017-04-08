@@ -1,0 +1,1920 @@
+
+
+\sectioncentered*{ПРИЛОЖЕНИЕ А}
+\addcontentsline{toc}{section}{Приложение А Исходный код программного средства.}
+\begin{center}
+\vspace{-1em}
+\textbf{ (обязательное)}
+
+\textbf{Исходный код программного средства}
+\end{center}
+
+
+  \begin{lstlisting}[language=Ruby, style=rubystyle]
+class VHDLParser
+
+
+rule
+
+vhdl : design_file {result = val}
+
+abstract_literal :
+  DECIMAL_LITERAL {result = DecimalLiteral.new(val[0]);LiteralRepository.add(result);}
+  | BASED_LITERAL {result = val[0]}
+
+access_type_definition :
+  ACCESS subtype_indication {result = val}
+
+actual_designator :
+  expression {result = val[0]}
+  | signal_name {result = val[0]}
+  | variable_name {result = val[0]}
+  | file_name {result = val[0]}
+  | OPEN {result = val[0]}
+
+actual_parameter_part :
+  parameter_association_list {result = val}
+
+actual_part :
+  actual_designator {result = val[0];}
+  | function_name '(' actual_designator ')' {result = val;}
+  | type_mark '(' actual_designator ')' {result = val;}
+
+adding_operator :
+  '+' {result = val}
+  | '-' {result = val}
+  | '&' {result = val}
+
+aggregate :
+  '(' element_association aggregate_loop0 ')' {result = Aggregate.new(val[1..2].flatten);}
+
+aggregate_loop0 :
+  ',' element_association aggregate_loop0 {result = val}
+  | {result = val}
+
+alias_declaration :
+  ALIAS alias_designator ':' subtype_indication IS name signature ';' {result = val}
+  | ALIAS alias_designator IS name signature ';' {result = val}
+  | ALIAS alias_designator ':' subtype_indication IS name ';' {result = val}
+  | ALIAS alias_designator IS name ';' {result = val}
+
+alias_designator :
+  identifier {result = val}
+  | CHARACTER_LITERAL {result = CharacterLiteral.new(val[0]); ConstantValueRepository.add(result); }
+  | operator_symbol {result = val}
+
+allocator :
+  NEW subtype_indication {result = val}
+  | NEW qualified_expression {result = val}
+
+architecture_body :
+    ARCHITECTURE identifier OF type_name IS architecture_declarative_part BEGIN architecture_statement_part END ARCHITECTURE identifier ';' {InitializeRepository.add(val[1]); result = ArchitectureDeclaration.new(val[1], val[3], val[5], val[7],val[9...val.length-1]);}
+  | ARCHITECTURE identifier OF type_name IS architecture_declarative_part BEGIN architecture_statement_part END identifier ';' {InitializeRepository.add(val[1]); result = ArchitectureDeclaration.new(val[1], val[3], val[5], val[7],val[9...val.length-1]); }
+  | ARCHITECTURE identifier OF type_name IS architecture_declarative_part BEGIN architecture_statement_part END ARCHITECTURE ';' {InitializeRepository.add(val[1]);result = ArchitectureDeclaration.new(val[1], val[3], val[5], val[7],val[9...val.length-1]);}
+  | ARCHITECTURE identifier OF type_name IS architecture_declarative_part BEGIN architecture_statement_part END ';' {InitializeRepository.add(val[1]);result = ArchitectureDeclaration.new(val[1], val[3], val[5], val[7],val[9...val.length-1]);}
+
+architecture_declarative_part :
+  architecture_declarative_part_loop0 {result = val[0];}
+
+architecture_declarative_part_loop0 :
+  block_declarative_item architecture_declarative_part_loop0 {result = val.flatten.compact;}
+  | {result = val}
+
+architecture_statement_part :
+  architecture_statement_part_loop0 {result = val}
+
+architecture_statement_part_loop0 :
+  concurrent_statement architecture_statement_part_loop0 {result = val}
+  | {result = val;}
+
+array_type_definition :
+  unconstrained_array_definition {result = val}
+  | constrained_array_definition {result = val}
+
+assertion :
+  ASSERT condition REPORT expression SEVERITY expression {result = val}
+  | ASSERT condition SEVERITY expression {result = val}
+  | ASSERT condition REPORT expression {result = val}
+  | ASSERT condition {result = val}
+
+assertion_statement :
+  LABEL ':' assertion ';' {result = val}
+  | assertion ';' {result = val}
+
+association_element :
+  formal_part '=>' actual_part {result = AssociationElement.new(val[0], val[2]);}
+  | actual_part {result = AssociationElement.new(nil, val[0])}
+
+association_list :
+  association_element association_list_loop0 {result = AssociationList.new(val.flatten)}
+
+association_list_loop0 :
+  ',' association_element association_list_loop0 {result = val[1..2];}
+  | {result = val;}
+
+attribute_declaration :
+  ATTRIBUTE identifier ':' type_mark ';' {result = val}
+
+attribute_designator :
+  attribute_simple_name {result = val}
+
+attribute_name :
+  prefix signature '\'' attribute_designator '(' expression ')' {result = val; }
+  | prefix '\'' attribute_designator '(' expression ')' {result = val}
+  | prefix signature '\'' attribute_designator {result = val}
+  | prefix '\'' attribute_designator {result = val}
+
+attribute_simple_name :
+  label {result = val[0]; InitializeRepository.add(result)}
+
+attribute_specification :
+  ATTRIBUTE attribute_designator OF entity_specification IS expression ';' {result = val}
+
+base_unit_declaration :
+  identifier ';' {result = val}
+
+basic_character :
+  basic_graphic_character {result = val}
+  | format_effector {result = val}
+
+basic_graphic_character :
+  upper_case_letter {result = val}
+  | digit {result = val}
+  | special_character {result = val}
+  | space_character {result = val}
+
+binding_indication :
+  USE entity_aspect generic_map_aspect port_map_aspect {result = val}
+  | generic_map_aspect port_map_aspect {result = val}
+  | USE entity_aspect port_map_aspect {result = val}
+  | port_map_aspect {result = val}
+  | USE entity_aspect generic_map_aspect {result = val}
+  | generic_map_aspect {result = val}
+  | USE entity_aspect {result = val}
+  | {result = val}
+
+block_configuration :
+  FOR block_specification block_configuration_loop0 block_configuration_loop1 END FOR ';' {result = val}
+
+block_configuration_loop0 :
+  use_clause block_configuration_loop0 {result = val}
+  | {result = val}
+
+block_configuration_loop1 :
+  configuration_item block_configuration_loop1 {result = val}
+  | {result = val}
+
+block_declarative_item :
+  subprogram_declaration {result = val}
+  | subprogram_body {result = val}
+  | type_declaration {result = val}
+  | subtype_declaration {result = val}
+  | constant_declaration {result = val[0]; }
+  | signal_declaration {result = val[0]; result.type.append_semicolon = true}
+  | shared_variable_declaration {result = val}
+  | file_declaration {result = val}
+  | alias_declaration {result = val}
+  | component_declaration {result = val}
+  | attribute_declaration {result = val}
+  | attribute_specification {result = val}
+  | configuration_specification {result = val}
+  | disconnection_specification {result = val}
+  | use_clause {result = val}
+  | group_template_declaration {result = val}
+  | group_declaration {result = val}
+
+block_declarative_part :
+  block_declarative_part_loop0 {result = val}
+
+block_declarative_part_loop0 :
+  block_declarative_item block_declarative_part_loop0 {result = val}
+  | {result = val}
+
+block_header :
+  generic_clause generic_map_aspect ';' port_clause port_map_aspect ';' {result = val}
+  | generic_clause port_clause port_map_aspect ';' {result = val}
+  | port_clause port_map_aspect ';' {result = val}
+  | generic_clause generic_map_aspect ';' port_clause {result = val}
+  | generic_clause port_clause {result = val}
+  | port_clause {result = val}
+  | generic_clause generic_map_aspect ';' {result = val}
+  | generic_clause {result = val}
+  | {result = val}
+
+block_specification :
+  architecture_name {result = val}
+  | block_statement_label {result = val}
+  | generate_statement_label '(' index_specification ')' {result = val}
+  | generate_statement_label {result = val}
+
+block_statement :
+  block_label ':' BLOCK '(' guard_expression ')' IS block_header block_declarative_part BEGIN block_statement_part END BLOCK block_label ';' {result = val}
+  | block_label ':' BLOCK IS block_header block_declarative_part BEGIN block_statement_part END BLOCK block_label ';' {result = val}
+  | block_label ':' BLOCK '(' guard_expression ')' block_header block_declarative_part BEGIN block_statement_part END BLOCK block_label ';' {result = val}
+  | block_label ':' BLOCK block_header block_declarative_part BEGIN block_statement_part END BLOCK block_label ';' {result = val}
+  | block_label ':' BLOCK '(' guard_expression ')' IS block_header block_declarative_part BEGIN block_statement_part END BLOCK ';' {result = val}
+  | block_label ':' BLOCK IS block_header block_declarative_part BEGIN block_statement_part END BLOCK ';' {result = val}
+  | block_label ':' BLOCK '(' guard_expression ')' block_header block_declarative_part BEGIN block_statement_part END BLOCK ';' {result = val}
+  | block_label ':' BLOCK block_header block_declarative_part BEGIN block_statement_part END BLOCK ';' {result = val}
+
+block_statement_part :
+  block_statement_part_loop0 {result = val}
+
+block_statement_part_loop0 :
+  concurrent_statement block_statement_part_loop0 {result = val}
+  | {result = val}
+
+case_statement :
+  case_label ':' CASE expression IS case_statement_alternative case_statement_loop0 END CASE case_label ';' {result = val;}
+  | CASE expression IS case_statement_alternative case_statement_loop0 END CASE case_label ';' {result = val;}
+  | case_label ':' CASE expression IS case_statement_alternative case_statement_loop0 END CASE ';' {result = val;}
+  | CASE expression IS case_statement_alternative case_statement_loop0 END CASE ';' {result = val.join(' ');}
+
+case_statement_alternative :
+  WHEN choices '=>' sequence_of_statements {result = val;}
+
+case_statement_loop0 :
+  case_statement_alternative case_statement_loop0 {result = val}
+  | {result = val}
+
+choice :
+  simple_expression {result = val}
+  | discrete_range {result = val}
+  | element_simple_name {result = val}
+  | OTHERS {result = val}
+
+choices :
+  choice choices_loop0 {result = val[0]}
+
+choices_loop0 :
+  '|' choice choices_loop0 {result = val}
+  | {result = val}
+
+component_configuration :
+  FOR component_specification binding_indication ';' block_configuration END FOR ';' {result = val}
+  | FOR component_specification block_configuration END FOR ';' {result = val}
+  | FOR component_specification binding_indication ';' END FOR ';' {result = val}
+  | FOR component_specification END FOR ';' {result = val}
+
+component_declaration :
+  COMPONENT identifier IS local_generic_clause formal_port_clause END COMPONENT component_simple_name ';' {result = val}
+  | COMPONENT identifier local_generic_clause formal_port_clause END COMPONENT component_simple_name ';' {result = val}
+  | COMPONENT identifier IS formal_port_clause END COMPONENT component_simple_name ';' {result = val}
+  | COMPONENT identifier formal_port_clause END COMPONENT component_simple_name ';' {result = val}
+  | COMPONENT identifier IS local_generic_clause END COMPONENT component_simple_name ';' {result = val}
+  | COMPONENT identifier local_generic_clause END COMPONENT component_simple_name ';' {result = val}
+  | COMPONENT identifier IS END COMPONENT component_simple_name ';' {result = val}
+  | COMPONENT identifier END COMPONENT component_simple_name ';' {result = val}
+  | COMPONENT identifier IS local_generic_clause formal_port_clause END COMPONENT ';' {result = val}
+  | COMPONENT identifier local_generic_clause formal_port_clause END COMPONENT ';' {result = val}
+  | COMPONENT identifier IS formal_port_clause END COMPONENT ';' {result = val}
+  | COMPONENT identifier formal_port_clause END COMPONENT ';' {result = val}
+  | COMPONENT identifier IS local_generic_clause END COMPONENT ';' {result = val}
+  | COMPONENT identifier local_generic_clause END COMPONENT ';' {result = val}
+  | COMPONENT identifier IS END COMPONENT ';' {result = val}
+  | COMPONENT identifier END COMPONENT ';' {result = val}
+
+component_instantiation_statement :
+  attribute_simple_name ':' instantiated_unit generic_map_aspect port_map_aspect ';' {result = ComponentInstantiation.new(val[0], val[2], val[3], val[4]);}
+  | attribute_simple_name ':' instantiated_unit port_map_aspect ';' {result = ComponentInstantiation.new(val[0], val[2], nil, val[3]);}
+  | attribute_simple_name ':' instantiated_unit generic_map_aspect ';' {result = ComponentInstantiation.new(val[0], val[2], val[3], nil); }
+  | attribute_simple_name ':' instantiated_unit ';' {result = ComponentInstantiation.new(val[0], val[2], nil, nil); }
+
+component_specification :
+  instantiation_list ':' type_name {result = val;}
+
+composite_type_definition :
+  array_type_definition {result = val}
+  | record_type_definition {result = val}
+
+concurrent_assertion_statement :
+  LABEL ':' POSTPONED assertion ';' {result = val}
+  | POSTPONED assertion ';' {result = val}
+  | LABEL ':' assertion ';' {result = val}
+  | assertion ';' {result = val}
+
+concurrent_procedure_call_statement :
+  LABEL ':' POSTPONED procedure_call ';' {result = val}
+  | POSTPONED procedure_call ';' {result = val}
+  | LABEL ':' procedure_call ';' {result = val}
+  | procedure_call ';' {result = val}
+
+concurrent_signal_assignment_statement :
+  LABEL ':' POSTPONED conditional_signal_assignment {result = val}
+  | POSTPONED conditional_signal_assignment {result = val}
+  | LABEL ':' conditional_signal_assignment {result = val}
+  | conditional_signal_assignment {result = val}
+  | LABEL ':' POSTPONED selected_signal_assignment {result = val}
+  | POSTPONED selected_signal_assignment {result = val}
+  | LABEL ':' selected_signal_assignment {result = val}
+  | selected_signal_assignment {result = val}
+
+concurrent_statement :
+  block_statement {result = val; }
+  | component_instantiation_statement {result = val;}
+  | concurrent_procedure_call_statement {result = val; }
+  | concurrent_assertion_statement {result = val; }
+  | concurrent_signal_assignment_statement {result = val;}
+  | process_statement {result = val[0]}
+  | generate_statement {result = val;}
+  | signal_assignment_statement {result = val[0]}
+  |conditional_signal_assignment {result = val[0]}
+
+
+condition :
+  boolean_expression {result = val;}
+  | function_call {result = ConditionalStatement.new(val[0], nil, nil);}
+  | expression relational_operator expression {result=ConditionalStatement.new(val[0], val[1], val[2]);val;}
+  | expression {result=ConditionalStatement.new(val[0], nil, nil);}
+  | relation { val = val.flatten; result = ConditionalStatement.new(val[0], val[1], val[2]);val; }
+
+condition_clause :
+  UNTIL condition {result = val}
+
+conditional_signal_assignment :
+  target '<=' options conditional_waveforms ';' {result = val.flatten.join(' ')}
+  | target '<=' conditional_waveforms ';'{result = val.flatten.join(' ')}
+  | function_call '<=' conditional_waveforms ';' {result = val.flatten.join(' ')}
+
+conditional_waveforms :
+  conditional_waveforms_loop0 waveform WHEN condition {result = val; ; }
+  | conditional_waveforms_loop0 waveform {result = val; }
+  | conditional_waveforms_loop0 {result = val; }
+
+conditional_waveforms_loop0 :
+  waveform WHEN condition ELSE conditional_waveforms_loop0 {result = val.flatten}
+  | waveform {result = val[0]}
+  | {result = val;}
+
+configuration_declaration :
+  CONFIGURATION identifier OF type_name IS configuration_declarative_part block_configuration END CONFIGURATION configuration_simple_name ';' {result = val}
+  | CONFIGURATION identifier OF type_name IS configuration_declarative_part block_configuration END configuration_simple_name ';' {result = val}
+  | CONFIGURATION identifier OF type_name IS configuration_declarative_part block_configuration END CONFIGURATION ';' {result = val}
+  | CONFIGURATION identifier OF type_name IS configuration_declarative_part block_configuration END ';' {result = val}
+
+configuration_declarative_item :
+  use_clause {result = val}
+  | attribute_specification {result = val}
+  | group_declaration {result = val}
+
+configuration_declarative_part :
+  configuration_declarative_part_loop0 {result = val}
+
+configuration_declarative_part_loop0 :
+  configuration_declarative_item configuration_declarative_part_loop0 {result = val}
+  | {result = val}
+
+configuration_item :
+  block_configuration {result = val}
+  | component_configuration {result = val}
+
+configuration_specification :
+  FOR component_specification binding_indication ';' {result = val}
+
+constant_declaration :
+  CONSTANT identifier_list ':' subtype_indication ':=' expression ';' {result = ConstantDeclaration.new(val[1], val[3], val[5]); }
+  | CONSTANT identifier_list ':' subtype_indication ';' {result = ConstantDeclaration.new(val[1], val[3], nil);}
+
+constrained_array_definition :
+  ARRAY index_constraint OF element_subtype_indication {result = val}
+
+constraint :
+  range_constraint {result = val}
+  | index_constraint {result = val}
+
+context_clause :
+  context_clause_loop0 {result = val}
+
+context_clause_loop0 :
+  context_item context_clause_loop0 {result = val}
+  | {result = val}
+
+context_item :
+  library_clause {result = val.flatten;}
+  | use_clause {result = val.flatten;}
+
+declaration :
+  type_declaration {result = val}
+  | subtype_declaration {result = val}
+  | object_declaration {result = val}
+  | interface_declaration {result = val}
+  | alias_declaration {result = val}
+  | attribute_declaration {result = val}
+  | component_declaration {result = val}
+  | group_template_declaration {result = val}
+  | group_declaration {result = val}
+  | entity_declaration {result = val}
+  | configuration_declaration {result = val}
+  | subprogram_declaration {result = val}
+  | package_declaration {result = val}
+
+delay_mechanism :
+  TRANSPORT {result = val}
+  | REJECT time_expression INERTIAL {result = val}
+  | INERTIAL {result = val}
+
+design_file :
+  design_unit design_file_loop0 {result = DesignFile.new(val.flatten)}
+
+design_file_loop0 :
+  design_unit design_file_loop0 {result = val}
+  | {result = val}
+
+design_unit :
+  context_clause library_unit  {result = val}
+
+designator :
+  identifier {result = val}
+  | operator_symbol {result = val}
+
+direction :
+  TO {result = val;}
+  | DOWNTO {result = val}
+
+disconnection_specification :
+  DISCONNECT guarded_signal_specification AFTER time_expression ';' {result = val}
+
+discrete_range :
+  discrete_subtype_indication {result = val}
+  | range_expression {result = val}
+
+element_association :
+  choices '=>' expression {val[2] = val[2].as_value;result = ElementAssociation.new(val[0], val[2]);}
+  | expression {result = ElementAssociation.new([val[0]], val[2]);}
+
+element_declaration :
+  identifier_list ':' element_subtype_definition ';' {result = val}
+
+element_subtype_definition :
+  subtype_indication {result = val}
+
+entity_aspect :
+  ENTITY type_name '(' architecture_identifier ')' {result = val}
+  | ENTITY type_name {result = val}
+  | CONFIGURATION configuration_name {result = val}
+  | OPEN {result = val}
+
+entity_class :
+  ENTITY {result = val}
+  | ARCHITECTURE {result = val}
+  | CONFIGURATION {result = val}
+  | PROCEDURE {result = val}
+  | FUNCTION {result = val}
+  | PACKAGE {result = val}
+  | TYPE {result = val}
+  | SUBTYPE {result = val}
+  | CONSTANT {result = val}
+  | SIGNAL {result = val}
+  | VARIABLE {result = val}
+  | COMPONENT {result = val}
+  | LABEL {result = val}
+  | LITERAL {result = val}
+  | UNITS {result = val}
+  | GROUP {result = val}
+  | FILE {result = val}
+
+entity_class_entry :
+  entity_class '<>' {result = val}
+  | entity_class {result = val}
+
+entity_class_entry_list :
+  entity_class_entry entity_class_entry_list_loop0 {result = val}
+
+entity_class_entry_list_loop0 :
+  ',' entity_class_entry entity_class_entry_list_loop0 {result = val}
+  | {result = val}
+
+entity_declaration :
+  ENTITY identifier IS entity_header entity_declarative_part BEGIN entity_statement_part END ENTITY type_name ';' { InitializeRepository.add(val[1]) ;result = EntityDeclaration.new(val[1], val[3], val[4].flatten);}
+  | ENTITY identifier IS entity_header entity_declarative_part END ENTITY type_name ';' { InitializeRepository.add(val[1]) ;result = EntityDeclaration.new(val[1], val[3], val[4].flatten);}
+  | ENTITY identifier IS entity_header entity_declarative_part BEGIN entity_statement_part END type_name ';' { InitializeRepository.add(val[1]) ;result = EntityDeclaration.new(val[1], val[3], val[4].flatten);}
+  | ENTITY identifier IS entity_header entity_declarative_part END type_name ';' { InitializeRepository.add(val[1]) ;result = EntityDeclaration.new(val[1], val[3], val[4].flatten);}
+  | ENTITY identifier IS entity_header entity_declarative_part BEGIN entity_statement_part END ENTITY ';' { InitializeRepository.add(val[1]) ;result = EntityDeclaration.new(val[1], val[3], val[4].flatten);}
+  | ENTITY identifier IS entity_header entity_declarative_part END ENTITY ';' { InitializeRepository.add(val[1]) ;result = EntityDeclaration.new(val[1], val[3], val[4].flatten);}
+  | ENTITY identifier IS entity_header entity_declarative_part BEGIN entity_statement_part END ';' { InitializeRepository.add(val[1]) ;result = EntityDeclaration.new(val[1], val[3], val[4].flatten);}
+  | ENTITY identifier IS entity_header entity_declarative_part END ';' { InitializeRepository.add(val[1]) ;result = EntityDeclaration.new(val[1], val[3], val[4].flatten);}
+
+entity_declarative_item :
+  subprogram_declaration {result = val}
+  | subprogram_body {result = val}
+  | type_declaration {result = val}
+  | subtype_declaration {result = val}
+  | constant_declaration {result = val[0] }
+  | signal_declaration {result = va[0]}
+  | shared_variable_declaration {result = val}
+  | file_declaration {result = val}
+  | alias_declaration {result = val}
+  | attribute_declaration {result = val}
+  | attribute_specification {result = val}
+  | disconnection_specification {result = val}
+  | use_clause {result = val}
+  | group_template_declaration {result = val}
+  | group_declaration {result = val}
+
+entity_declarative_part :
+  entity_declarative_part_loop0 {result = val}
+
+entity_declarative_part_loop0 :
+  entity_declarative_item entity_declarative_part_loop0 {result = val}
+  | {result = val}
+
+entity_designator :
+  entity_tag signature {result = val}
+  | entity_tag {result = val}
+
+entity_header :
+  formal_generic_clause formal_port_clause {result = val}
+  | formal_port_clause {result = val; }
+  | formal_generic_clause {result = val;}
+  | {result = val}
+
+formal_generic_clause :
+  generic_clause {result = val[0];}
+entity_name_list :
+  entity_designator entity_name_list_loop0 {result = val;}
+  | OTHERS {result = val;}
+  | ALL {result = val}
+
+entity_name_list_loop0 :
+  ',' entity_designator entity_name_list_loop0 {result = val}
+  | {result = val}
+
+entity_specification :
+  entity_name_list ':' entity_class {result = val;}
+
+entity_statement :
+  concurrent_assertion_statement {result = val}
+  | passive_concurrent_procedure_call_statement {result = val}
+  | passive_process_statement {result = val}
+
+entity_statement_part :
+  entity_statement_part_loop0 {result = val}
+
+entity_statement_part_loop0 :
+  entity_statement entity_statement_part_loop0 {result = val}
+  | {result = val}
+
+entity_tag :
+  label {result = val}
+  | CHARACTER_LITERAL {result = CharacterLiteral.new(val[0]);ConstantValueRepository.add(result);}
+  | operator_symbol {result = val}
+
+enumeration_literal :
+  identifier {result = val[0];}
+  | CHARACTER_LITERAL {result = CharacterLiteral.new(val[0]); ConstantValueRepository.add(result); }
+
+enumeration_type_definition :
+  '(' enumeration_literal enumeration_type_definition_loop0 ')' {result = val}
+
+enumeration_type_definition_loop0 :
+  ',' enumeration_literal enumeration_type_definition_loop0 {result = val}
+  | {result = val}
+
+exit_statement :
+  LABEL ':' EXIT loop_label WHEN condition ';' {result = val}
+  | EXIT loop_label WHEN condition ';' {result = val}
+  | LABEL ':' EXIT WHEN condition ';' {result = val}
+  | EXIT WHEN condition ';' {result = val}
+  | LABEL ':' EXIT loop_label ';' {result = val}
+  | EXIT loop_label ';' {result = val}
+  | LABEL ':' EXIT ';' {result = val}
+  | EXIT ';' {result = val}
+
+expression :
+  relation expression_loop0 {result = Expression.new(val.flatten);}
+  | STRING_LITERAL {result = StringLiteral.new(val[0]);}
+  | relation expression_loop1 {result =  Expression.new(val.flatten);}
+  | relation expression_loop2 {result =  Expression.new(val.flatten);}
+  | relation NAND relation {result =  Expression.new(val.flatten);}
+  | relation NOR relation {result =  Expression.new(val.flatten);}
+  | relation expression_loop3 {result =  Expression.new(val.flatten);}
+
+expression_loop0 :
+  AND relation expression_loop0 {result = val;}
+  | {result = val}
+
+expression_loop1 :
+  OR relation expression_loop1 {result = val}
+  | {result = val}
+
+expression_loop2 :
+  XOR relation expression_loop2 {result = val}
+  | {result = val}
+
+expression_loop3 :
+  XNOR relation expression_loop3 {result = val}
+  | {result = val}
+
+extended_digit :
+  digit {result = val}
+  | letter {result = val}
+
+factor :
+  primary '**' primary {result = val;}
+  | primary {result = val[0];}
+  | ABS primary {result = val}
+  | NOT primary {result = val; }
+
+
+file_declaration :
+  FILE identifier_list ':' subtype_indication file_open_information ';' {result = val}
+  | FILE identifier_list ':' subtype_indication ';' {result = val}
+
+file_logical_name :
+  string_expression {result = val}
+
+file_open_information :
+  OPEN file_open_kind_expression IS file_logical_name {result = val}
+  | IS file_logical_name {result = val}
+
+file_type_definition :
+  FILE OF type_mark floating_type_definition ':=' range_constraint {result = val}
+
+formal_designator :
+  type_name {result = val[0]}
+  | identifier {result = val[0]}
+
+formal_parameter_list :
+  parameter_interface_list {result = val}
+
+function_name :
+  identifier {result = val}
+formal_part :
+  formal_designator {result = val[0]}
+  | function_call {result = val[0];}
+  | type_mark '(' formal_designator ')' {result = val}
+
+
+formal_port_clause :
+  port_clause {result = val[0];}
+
+full_type_declaration :
+  TYPE identifier IS type_definition ';' {result = val}
+
+function_call :
+  identifier '(' identifier_list ')' {result = FunctionCall.new(val[0], val[2]);}
+  | identifier '(' numeric_literal ')' {result = FunctionCall.new(val[0], val[2]);}
+  | identifier '(' range_expression ')'{val[2].ignore_braces = true;result = FunctionCall.new(val[0], val[2]);}
+  | identifier '(' simple_expression ')'{result = FunctionCall.new(val[0], val[2]);}
+
+
+generate_statement :
+  generate_label ':' generation_scheme GENERATE generate_statement_loop0 BEGIN generate_statement_loop1 END GENERATE generate_label ';' {result = val}
+  | generate_label ':' generation_scheme GENERATE generate_statement_loop1 END GENERATE generate_label ';' {result = val}
+  | generate_label ':' generation_scheme GENERATE generate_statement_loop0 BEGIN generate_statement_loop1 END GENERATE ';' {result = val}
+  | generate_label ':' generation_scheme GENERATE generate_statement_loop1 END GENERATE ';' {result = val}
+
+generate_statement_loop0 :
+  block_declarative_item generate_statement_loop0 {result = val}
+  | {result = val}
+
+generate_statement_loop1 :
+  concurrent_statement generate_statement_loop1 {result = val}
+  | {result = val}
+
+generation_scheme :
+  FOR generate_parameter_specification {result = val}
+  | IF condition {result = val;}
+
+generic_association_list :
+  association_list {result = val[0];}
+
+generic_clause :
+  GENERIC '(' generic_list ')' ';' {result = GenericClause.new(val[2]);}
+
+generic_list :
+  port_interface_list {result = val[0]; }
+
+generic_map_aspect :
+  GENERIC MAP '(' generic_association_list ')' {val[3].elements.each  {|el| el.actual_part = el.actual_part.as_value }; result = PortMap.new('GENERIC', val[3]);}
+
+group_constituent :
+  name {result = val}
+  | CHARACTER_LITERAL {result = CharacterLiteral.new(val[0]);ConstantValueRepository.add(result);}
+
+group_constituent_list :
+  group_constituent group_constituent_list_loop0 {result = val}
+
+group_constituent_list_loop0 :
+  ',' group_constituent group_constituent_list_loop0 {result = val}
+  | {result = val}
+
+group_declaration :
+  GROUP identifier ':' group_template_name '(' group_constituent_list ')' ';' {result = val}
+
+group_template_declaration :
+  GROUP identifier IS '(' entity_class_entry_list ')' ';' {result = val}
+
+guarded_signal_specification :
+  guarded_signal_list ':' type_mark {result = val}
+
+identifier :
+  BASIC_IDENTIFIER {result = Identifier.new(val[0]);}
+  | EXTENDED_IDENTIFIER {result = Identifier.new(val[0])}
+
+identifier_list :
+  identifier identifier_list_loop0 {result = val = IdentifierList.new(val.flatten); InitializeRepository.add(result.identifiers) }
+
+identifier_list_loop0 :
+  ',' identifier identifier_list_loop0 {result = val - [',']}
+  | {result = val}
+
+if_statement :
+  if_label ':' IF condition THEN sequence_of_statements if_statement_loop0 ELSE sequence_of_statements END IF if_label ';' {result = IfStatement.new(val[0], val[3], val[5..6], val[8], val[9...val.length-1])}
+  | IF condition THEN sequence_of_statements if_statement_loop0 ELSE sequence_of_statements END IF if_label ';' {result = IfStatement.new(nil, val[1], val[3..4], val[6], val[7...val.length-1])}
+  | if_label ':' IF condition THEN sequence_of_statements if_statement_loop0 END IF if_label ';' {result = IfStatement.new(val[0], val[3], val[5..6], nil, val[9...val.length-1])}
+  | IF condition THEN sequence_of_statements if_statement_loop0 END IF if_label ';' {result = IfStatement.new(nil, val[1], val[3..4], nil, val[5...val.length-1])}
+  | if_label ':' IF condition THEN sequence_of_statements if_statement_loop0 ELSE sequence_of_statements END IF ';' {result = IfStatement.new(val[0], val[3], val[5..6], val[8], val[9...val.length-1])}
+  | IF condition THEN sequence_of_statements if_statement_loop0 ELSE sequence_of_statements END IF ';' {result = IfStatement.new(nil, val[1], val[3..4], val[6], val[7...val.length-1])}
+  | if_label ':' IF condition THEN sequence_of_statements if_statement_loop0 END IF ';' {result = IfStatement.new(val[0], val[3], val[5..6], nil, val[7...val.length-1])}
+  | IF condition THEN sequence_of_statements if_statement_loop0 END IF ';' {result = IfStatement.new(nil, val[1], val[3..4], nil, val[5...val.length-1])}
+  | IF '(' condition ')' THEN sequence_of_statements if_statement_loop0 END IF ';' {result = IfStatement.new(nil, val[2], val[5..6], nil, val[7...val.length-1]);}
+  | IF '(' condition ')' THEN sequence_of_statements if_statement_loop0 ELSE sequence_of_statements END IF ';' {result = IfStatement.new(nil, val[2], val[5..6], val[8], val[9...val.length-1]);}
+
+if_statement_loop0 :
+  ELSIF condition THEN sequence_of_statements if_statement_loop0 {result = val;}
+  | {result = val}
+
+incomplete_type_declaration :
+  TYPE identifier ';' {result = val}
+
+index_constraint :
+  '(' discrete_range index_constraint_loop0 ')' {result = val}
+
+index_constraint_loop0 :
+  ',' discrete_range index_constraint_loop0 {result = val}
+  | {result = val}
+
+index_specification :
+  discrete_range {result = val}
+  | static_expression {result = val}
+
+index_subtype_definition :
+  type_mark RANGE '<>' {result = val}
+
+indexed_name :
+  prefix '(' expression indexed_name_loop0 ')' {result = val}
+
+indexed_name_loop0 :
+  ',' expression indexed_name_loop0 {result = val}
+  | {result = val}
+
+instantiated_unit :
+  COMPONENT type_name {result = val}
+  | type_name {result = val[0];}
+  | identifier {result = val[0]; }
+  | ENTITY type_name '(' architecture_identifier ')' {result = val}
+  | ENTITY type_name {result = val}
+  | CONFIGURATION configuration_name {result = val}
+
+instantiation_list :
+  attribute_simple_name instantiation_list_loop0 {result = val;}
+  | OTHERS {result = val}
+  | ALL {result = val}
+
+instantiation_list_loop0 :
+  ',' attribute_simple_name instantiation_list_loop0 {result = val}
+  | {result = val}
+
+integer_type_definition :
+  range_constraint {result = val}
+
+interface_constant_declaration :
+  CONSTANT identifier_list ':' IN subtype_indication ':=' static_expression {result = SignalDeclaration.new(val[1], val[3][0]);  }
+  | CONSTANT identifier_list ':' subtype_indication ':=' static_expression {result = SignalDeclaration.new(val[1], val[3][0]);  }
+  | CONSTANT identifier_list ':' IN subtype_indication {result = SignalDeclaration.new(val[1], val[3][0]);  }
+  | CONSTANT identifier_list ':' subtype_indication {result = SignalDeclaration.new(val[1], nil);  }
+
+
+interface_declaration :
+  interface_signal_declaration {result = val}
+  | interface_variable_declaration {result = val}
+  | interface_file_declaration {result = val}
+  | interface_constant_declaration {result = val;}
+
+interface_element :
+  interface_declaration {result = val[0];}
+
+interface_file_declaration :
+  FILE identifier_list ':' subtype_indication {result = val}
+
+interface_list :
+  interface_element interface_list_loop0 {result = val.flatten; result.last.type.append_semicolon = false; }
+
+interface_list_loop0 :
+  ';' interface_element interface_list_loop0 {result = val[1..2]}
+  | {result = val}
+
+interface_signal_declaration :
+  SIGNAL identifier_list ':' mode subtype_indication BUS ':=' static_expression {val[4].append_semicolon = true ;result = SignalDeclaration.new(val[0],val[1], val[3], val[4], val[7]);  }
+  | identifier_list ':' mode subtype_indication BUS ':=' static_expression {val[3].append_semicolon = true ;result = SignalDeclaration.new(nil, val[0], val[2], val[3], val[6]);  }
+  | SIGNAL identifier_list ':' subtype_indication BUS ':=' static_expression {val[3].append_semicolon = true ;result = SignalDeclaration.new(val[0],val[1], nil, val[3], val[6]);  }
+  | identifier_list ':' subtype_indication BUS ':=' static_expression {val[2].append_semicolon = true ;result = SignalDeclaration.new(nil, val[0], nil, val[2], val[5] ); }
+  | SIGNAL identifier_list ':' mode subtype_indication ':=' static_expression {val[4].append_semicolon = true ;result = SignalDeclaration.new(val[0],val[1], val[3], val[4], val[6]);  }
+  | identifier_list ':' mode subtype_indication ':=' static_expression {val[3].append_semicolon = true ;result = SignalDeclaration.new(nil, val[0], val[2], val[3], val[5]);  }
+  | SIGNAL identifier_list ':' subtype_indication ':=' static_expression {val[3].append_semicolon = true ;result = SignalDeclaration.new(val[0], val[1], nil, val[3],val[5]);  }
+  | identifier_list ':' subtype_indication ':=' static_expression {val[2].append_semicolon = true ;result = SignalDeclaration.new(nil, val[0], nil, val[2], val[4]);  }
+  | SIGNAL identifier_list ':' mode subtype_indication BUS {val[4].append_semicolon = true ;result = SignalDeclaration.new(val[0], val[1], val[3], val[4]);  }
+  | identifier_list ':' mode subtype_indication BUS {val[3].append_semicolon = true ;result = SignalDeclaration.new(nil, val[0], val[2], val[3]);  }
+  | SIGNAL identifier_list ':' subtype_indication BUS {val[3].append_semicolon = true ;result = SignalDeclaration.new(val[0], val[1], nil, val[3]);  }
+  | identifier_list ':' subtype_indication BUS {val[2].append_semicolon = true ;result = SignalDeclaration.new(nil, val[0], nil, val[2]);  }
+  | SIGNAL identifier_list ':' mode subtype_indication {val[4].append_semicolon = true ;result = SignalDeclaration.new(val[0], val[1], val[3], val[4]);  }
+  | identifier_list ':' mode subtype_indication {val[3].append_semicolon = true ;result = SignalDeclaration.new(nil, val[0], val[2], val[3]);}
+  | SIGNAL identifier_list ':' subtype_indication {val[3].append_semicolon = true ;result = SignalDeclaration.new(val[0], val[1], nil, val[3]); }
+  | identifier_list ':' subtype_indication {val[2].append_semicolon = true ;result = SignalDeclaration.new(nil, val[0], nil, val[2]);  }
+
+interface_variable_declaration :
+  VARIABLE identifier_list ':' mode subtype_indication ':=' static_expression {result = val}
+  | identifier_list ':' mode subtype_indication ':=' static_expression {result = val; }
+  | VARIABLE identifier_list ':' subtype_indication ':=' static_expression {result = val; }
+  | identifier_list ':' subtype_indication ':=' static_expression {result = val; }
+  | VARIABLE identifier_list ':' mode subtype_indication {result = val; }
+  | identifier_list ':' mode subtype_indication {result = val; }
+  | VARIABLE identifier_list ':' subtype_indication {result = val}
+  | identifier_list ':' subtype_indication {result = val; }
+
+iteration_scheme :
+  WHILE condition {result = val}
+  | FOR loop_parameter_specification {result = val}
+
+label :
+  identifier {result = val[0]; }
+
+library_clause :
+  LIBRARY logical_name_list ';' {result = LibraryWrapper.new(val[1].flatten);}
+
+library_unit :
+  primary_unit {result = val}
+  | secondary_unit {result = val}
+
+literal_expression :
+  numeric_literal {result = val[0]}
+  | enumeration_literal {result = val[0]}
+  | STRING_LITERAL {result = StringLiteral.new(val[0]);}
+  | BIT_STRING_LITERAL {result = val[0];}
+  | NULL {result = val[0];}
+
+local_generic_clause :
+  generic_clause {result = val}
+
+logical_name_list :
+  label logical_name_list_loop0 {result = val}
+
+logical_name_list_loop0 :
+  ',' label logical_name_list_loop0 {result = val}
+  | {result = val}
+
+logical_operator :
+  AND {result = val}
+  | OR {result = val}
+  | NAND {result = val}
+  | NOR {result = val}
+  | XOR {result = val}
+  | XNOR {result = val}
+
+loop_statement :
+  loop_label ':' iteration_scheme LOOP sequence_of_statements END LOOP loop_label ';' {result = val;}
+  | iteration_scheme LOOP sequence_of_statements END LOOP loop_label ';' {result = val;}
+  | loop_label ':' LOOP sequence_of_statements END LOOP loop_label ';' {result = val;}
+  | LOOP sequence_of_statements END LOOP loop_label ';' {result = val;}
+  | loop_label ':' iteration_scheme LOOP sequence_of_statements END LOOP ';' {result = val;}
+  | iteration_scheme LOOP sequence_of_statements END LOOP ';' {result = val;}
+  | loop_label ':' LOOP sequence_of_statements END LOOP ';' {result = val;}
+  | LOOP sequence_of_statements END LOOP ';' {result = val;}
+
+miscellaneous_operator :
+  '**' {result = val}
+  | ABS {result = val}
+  | NOT {result = val}
+
+mode :
+  IN {result = val[0]}
+  | OUT {result = val[0]}
+  | INOUT {result = val[0]}
+  | BUFFER {result = val[0]}
+  | LINKAGE {result = val[0]}
+
+multiplying_operator :
+  '*' {result = val}
+  | '/' {result = val}
+  | MOD {result = val}
+  | REM {result = val}
+
+name :
+  label {result = val[0]}
+  | operator_symbol {result = val[0]}
+  | selected_name {result = val[0]}
+  | indexed_name {result = val[0]}
+  | slice_name {result = val[0]}
+  | attribute_name {result = val[0]}
+
+next_statement :
+  LABEL ':' NEXT loop_label WHEN condition ';' {result = val}
+  | NEXT loop_label WHEN condition ';' {result = val}
+  | LABEL ':' NEXT WHEN condition ';' {result = val}
+  | NEXT WHEN condition ';' {result = val}
+  | LABEL ':' NEXT loop_label ';' {result = val}
+  | NEXT loop_label ';' {result = val}
+  | LABEL ':' NEXT ';' {result = val}
+  | NEXT ';' {result = val}
+
+null_statement :
+  LABEL ':' NULL ';' {result = val}
+  | NULL ';' {result = val}
+
+numeric_literal :
+  abstract_literal {result = val[0]}
+  | physical_literal {result = val}
+
+object_declaration :
+  constant_declaration {result = val[0]}
+  | signal_declaration {result = val}
+  | variable_declaration {result = val}
+  | file_declaration {result = val}
+
+operator_symbol :
+  STRING_LITERAL {result = StringLiteral.new(val[0]);}
+
+options :
+  GUARDED delay_mechanism {result = val}
+  | delay_mechanism {result = val}
+  | GUARDED {result = val}
+  | {result = val}
+
+package_body :
+  PACKAGE BODY package_simple_name IS package_body_declarative_part END PACKAGE BODY package_simple_name ';' {result = val}
+  | PACKAGE BODY package_simple_name IS package_body_declarative_part END package_simple_name ';' {result = val}
+  | PACKAGE BODY package_simple_name IS package_body_declarative_part END PACKAGE BODY ';' {result = val}
+  | PACKAGE BODY package_simple_name IS package_body_declarative_part END ';' {result = val}
+
+package_body_declarative_item :
+  subprogram_declaration {result = val}
+  | subprogram_body {result = val}
+  | type_declaration {result = val}
+  | subtype_declaration {result = val}
+  | constant_declaration {result = val[0]}
+  | shared_variable_declaration {result = val}
+  | file_declaration {result = val}
+  | alias_declaration {result = val}
+  | use_clause {result = val}
+  | group_template_declaration {result = val}
+  | group_declaration {result = val}
+
+package_body_declarative_part :
+  package_body_declarative_part_loop0 {result = val}
+
+package_body_declarative_part_loop0 :
+  package_body_declarative_item package_body_declarative_part_loop0 {result = val}
+  | {result = val}
+
+package_declaration :
+  PACKAGE identifier IS package_declarative_part END PACKAGE package_simple_name ';' {result = val}
+  | PACKAGE identifier IS package_declarative_part END package_simple_name ';' {result = val}
+  | PACKAGE identifier IS package_declarative_part END PACKAGE ';' {result = val}
+  | PACKAGE identifier IS package_declarative_part END ';' {result = val}
+
+package_declarative_item :
+  subprogram_declaration {result = val}
+  | type_declaration {result = val}
+  | subtype_declaration {result = val}
+  | constant_declaration {result = val[0]}
+  | signal_declaration {result = val}
+  | shared_variable_declaration {result = val}
+  | file_declaration {result = val}
+  | alias_declaration {result = val}
+  | component_declaration {result = val}
+  | attribute_declaration {result = val}
+  | attribute_specification {result = val}
+  | disconnection_specification {result = val}
+  | use_clause {result = val}
+  | group_template_declaration {result = val}
+  | group_declaration {result = val}
+
+package_declarative_part :
+  package_declarative_part_loop0 {result = val}
+
+package_declarative_part_loop0 :
+  package_declarative_item package_declarative_part_loop0 {result = val}
+  | {result = val}
+
+parameter_specification :
+  identifier IN discrete_range {result = val}
+
+physical_literal :
+  abstract_literal unit_name {result = val}
+  | unit_name {result = val}
+
+physical_type_definition :
+  range_constraint UNITS base_unit_declaration physical_type_definition_loop0 END UNITS physical_type_simple_name {result = val}
+  | range_constraint UNITS base_unit_declaration physical_type_definition_loop0 END UNITS {result = val}
+
+physical_type_definition_loop0 :
+  secondary_unit_declaration physical_type_definition_loop0 {result = val}
+  | {result = val}
+
+port_clause :
+  PORT '(' generic_list ')' ';' {result = PortClause.new(val[2].flatten);}
+
+port_interface_list :
+  interface_list {result = val[0]}
+
+port_map_aspect :
+  PORT MAP '(' generic_association_list ')' {result = PortMap.new('PORT', val[3]);}
+
+prefix :
+  name {result = val[0]}
+  | function_call {result = val[0];}
+
+primary :
+  name {result = val[0];}
+  | literal_expression {result = val[0];}
+  | aggregate {result = val[0];}
+  | function_call {result = val[0];}
+  | qualified_expression {result = val;}
+  | type_conversion {result = val;}
+  | allocator {result = val;}
+  | '(' expression ')' {result = val;}
+
+primary_unit :
+  entity_declaration {result = val}
+  | configuration_declaration {result = val}
+  | package_declaration {result = val}
+
+procedure_call :
+  procedure_name '(' actual_parameter_part ')' {result = val}
+  | procedure_name {result = val}
+
+procedure_call_statement :
+  LABEL ':' procedure_call ';' {result = val}
+  | procedure_call ';' {result = val}
+
+process_declarative_item :
+  subprogram_declaration {result = val}
+  | subprogram_body {result = val}
+  | type_declaration {result = val}
+  | subtype_declaration {result = val}
+  | constant_declaration {result = val[0]}
+  | variable_declaration {result = val}
+  | file_declaration {result = val}
+  | alias_declaration {result = val}
+  | attribute_declaration {result = val}
+  | attribute_specification {result = val}
+  | use_clause {result = val}
+  | group_template_declaration {result = val}
+  | group_declaration {result = val}
+
+process_declarative_part :
+  process_declarative_part_loop0 {result = val}
+
+process_declarative_part_loop0 :
+  process_declarative_item process_declarative_part_loop0 {result = val}
+  | {result = val}
+
+
+process_statement :
+  PROCESS_NAME ':' POSTPONED PROCESS '(' sensitivity_list ')' IS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | POSTPONED PROCESS '(' sensitivity_list ')' IS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' PROCESS '(' sensitivity_list ')' IS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS '(' sensitivity_list ')' IS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' POSTPONED PROCESS IS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | POSTPONED PROCESS IS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' PROCESS IS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS IS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' POSTPONED PROCESS '(' sensitivity_list ')' process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | POSTPONED PROCESS '(' sensitivity_list ')' process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' PROCESS '(' sensitivity_list ')' process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS '(' sensitivity_list ')' process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' POSTPONED PROCESS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | POSTPONED PROCESS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' PROCESS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' POSTPONED PROCESS '(' sensitivity_list ')' IS process_declarative_part BEGIN process_statement_part END PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | POSTPONED PROCESS '(' sensitivity_list ')' IS process_declarative_part BEGIN process_statement_part END PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' PROCESS '(' sensitivity_list ')' IS process_declarative_part BEGIN process_statement_part END PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS '(' sensitivity_list ')' IS process_declarative_part BEGIN process_statement_part END PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' POSTPONED PROCESS IS process_declarative_part BEGIN process_statement_part END PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | POSTPONED PROCESS IS process_declarative_part BEGIN process_statement_part END PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' PROCESS IS process_declarative_part BEGIN process_statement_part END PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS IS process_declarative_part BEGIN process_statement_part END PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' POSTPONED PROCESS '(' sensitivity_list ')' process_declarative_part BEGIN process_statement_part END PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | POSTPONED PROCESS '(' sensitivity_list ')' process_declarative_part BEGIN process_statement_part END PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' PROCESS '(' sensitivity_list ')' process_declarative_part BEGIN process_statement_part END PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS '(' sensitivity_list ')' process_declarative_part BEGIN process_statement_part END PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' POSTPONED PROCESS process_declarative_part BEGIN process_statement_part END PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | POSTPONED PROCESS process_declarative_part BEGIN process_statement_part END PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' PROCESS process_declarative_part BEGIN process_statement_part END PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS process_declarative_part BEGIN process_statement_part END PROCESS identifier ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' POSTPONED PROCESS '(' sensitivity_list ')' IS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | POSTPONED PROCESS '(' sensitivity_list ')' IS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' PROCESS '(' sensitivity_list ')' IS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS '(' sensitivity_list ')' IS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' POSTPONED PROCESS IS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | POSTPONED PROCESS IS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' PROCESS IS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS IS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' POSTPONED PROCESS '(' sensitivity_list ')' process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | POSTPONED PROCESS '(' sensitivity_list ')' process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' PROCESS '(' sensitivity_list ')' process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS '(' sensitivity_list ')' process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' POSTPONED PROCESS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | POSTPONED PROCESS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' PROCESS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS process_declarative_part BEGIN process_statement_part END POSTPONED PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' POSTPONED PROCESS '(' sensitivity_list ')' IS process_declarative_part BEGIN process_statement_part END PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | POSTPONED PROCESS '(' sensitivity_list ')' IS process_declarative_part BEGIN process_statement_part END PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' PROCESS '(' sensitivity_list ')' IS process_declarative_part BEGIN process_statement_part END PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS '(' sensitivity_list ')' IS process_declarative_part BEGIN process_statement_part END PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' POSTPONED PROCESS IS process_declarative_part BEGIN process_statement_part END PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | POSTPONED PROCESS IS process_declarative_part BEGIN process_statement_part END PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' PROCESS IS process_declarative_part BEGIN process_statement_part END PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS IS process_declarative_part BEGIN process_statement_part END PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' POSTPONED PROCESS '(' sensitivity_list ')' process_declarative_part BEGIN process_statement_part END PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | POSTPONED PROCESS '(' sensitivity_list ')' process_declarative_part BEGIN process_statement_part END PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' PROCESS '(' sensitivity_list ')' process_declarative_part BEGIN process_statement_part END PROCESS ';' {result =  ProcessDeclaration.new(nil, val[0], val[4], val[6], val[8], val[9...val.length-1]); }
+  | PROCESS '(' sensitivity_list ')' BEGIN process_statement_part END PROCESS ';' {result = ProcessDeclaration.new(nil, nil, val[2], [], val[5], val[6...val.length-1]); }
+  | PROCESS '(' sensitivity_list ')' process_declarative_part BEGIN process_statement_part END PROCESS ';' {result = ProcessDeclaration.new(nil, nil, val[2], val[4], val[6], val[7...val.length-1]); }
+  | PROCESS_NAME ':' POSTPONED PROCESS process_declarative_part BEGIN process_statement_part END PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | POSTPONED PROCESS process_declarative_part BEGIN process_statement_part END PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS_NAME ':' PROCESS process_declarative_part BEGIN process_statement_part END PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], ); }
+  | PROCESS process_declarative_part BEGIN process_statement_part END PROCESS ';' {result = ProcessDeclaration.new(nil, val[0], );; }
+
+
+process_name :
+  PROCESS_NAME {resul}
+  identifier {result = val[0]}
+
+process_statement_part :
+  process_statement_part_loop0 {result = val}
+
+process_statement_part_loop0 :
+  sequential_statement process_statement_part_loop0 {result = val}
+  | {result = val}
+
+pure_impure :
+  PURE {result = val}
+  | IMPURE {result = val}
+
+qualified_expression :
+  type_mark '\'' '(' expression ')' {result = val}
+  | type_mark '\'' aggregate {result = val}
+
+range_constraint :
+  RANGE range_expression {result = val}
+
+range_expression :
+  range_attribute_name {result = val}
+  | simple_expression direction simple_expression {result = RangeExpression.new(val[1], val[0], val[2]);}
+
+record_type_definition :
+  RECORD element_declaration record_type_definition_loop0 END RECORD record_type_simple_name {result = val}
+  | RECORD element_declaration record_type_definition_loop0 END RECORD {result = val}
+
+record_type_definition_loop0 :
+  element_declaration record_type_definition_loop0 {result = val}
+  | {result = val}
+
+relation :
+  shift_expression relational_operator shift_expression {result = Relation.new(val[0], val[1], val[2]);}
+  | function_call relational_operator function_call {result = Relation.new(val[0], val[1], val[2]);}
+  | shift_expression {result = Relation.new(val[0]);}
+  | '('shift_expression ')' {result = Relation.new(val[0]);}
+
+
+
+
+relational_operator :
+  '=' {result = val[0]}
+  | '/=' {result = val[0]}
+  | '<' {result = val[0]}
+  | '<=' {result = val[0]}
+  | '>' {result = val[0]}
+  | '>=' {result = val[0]}
+
+report_statement :
+  LABEL ':' REPORT expression SEVERITY expression ';' {result = val}
+  | REPORT expression SEVERITY expression ';' {result = val}
+  | LABEL ':' REPORT expression ';' {result = val}
+  | REPORT expression ';' {result = val}
+
+return_statement :
+  LABEL ':' RETURN expression ';' {result = val}
+  | RETURN expression ';' {result = val}
+  | LABEL ':' RETURN ';' {result = val}
+  | RETURN ';' {result = val}
+
+scalar_type_definition :
+  enumeration_type_definition {result = val}
+  | integer_type_definition {result = val}
+  | floating_type_definition {result = val}
+  | physical_type_definition {result = val}
+
+secondary_unit :
+  architecture_body {result = val}
+  | package_body {result = val}
+
+secondary_unit_declaration :
+  identifier '=' physical_literal ';' {result = val}
+
+selected_name :
+  prefix '.' suffix {result = val}
+
+selected_signal_assignment :
+  WITH expression SELECT target '<=' options selected_waveforms ';' {result = val}
+
+selected_waveforms :
+  selected_waveforms_loop0 waveform WHEN choices {result = val; }
+
+selected_waveforms_loop0 :
+  waveform WHEN choices ',' selected_waveforms_loop0 {result = val;}
+  | {result = val;}
+
+sensitivity_clause :
+  ON sensitivity_list {result = val}
+
+sensitivity_list :
+  identifier_list {result = val[0]}
+
+sensitivity_list_loop0 :
+  ',' signal_name sensitivity_list_loop0 {result = val}
+  | ',' label sensitivity_list_loop0 {result = val}
+
+  | {result = val}
+
+sequence_of_statements :
+  sequence_of_statements_loop0 {result = val.flatten}
+
+sequence_of_statements_loop0 :
+  sequential_statement sequence_of_statements_loop0 {result = val;}
+  | {result = val}
+
+sequential_statement :
+  wait_statement {result = val; }
+  | assertion_statement {result = val; }
+  | report_statement {result = val; }
+  | signal_assignment_statement {result = val[0]}
+  | variable_assignment_statement {result = val[0]; }
+  | procedure_call_statement {result = val; }
+  | if_statement {result = val[0]; }
+  | case_statement {result = val[0]; }
+  | loop_statement {result = val[0]; }
+  | next_statement {result = val[0]; }
+  | exit_statement {result = val[0]; }
+  | return_statement {result = val[0]; }
+  | null_statement {result = val[0]; }
+
+shift_expression :
+  simple_expression shift_operator simple_expression {result = val}
+  | simple_expression {result = val[0];}
+  | function_call {result = val[0]; }
+
+shift_operator :
+  SLL {result = val}
+  | SRL {result = val}
+  | SLA {result = val}
+  | SRA {result = val}
+  | ROL {result = val}
+  | ROR {result = val}
+
+sign :
+  '+' {result = val}
+  | '-' {result = val}
+
+signal_assignment_statement :
+  LABEL ':' target '<=' delay_mechanism waveform ';' {result = SignalAssignmentStatement.new(val[0],  val[2], val[4] )}
+  | target '<=' delay_mechanism waveform ';' {result = SignalAssignmentStatement.new(nil, val[0], val[2])}
+  | LABEL ':' target '<=' waveform ';' {result = SignalAssignmentStatement.new(val[0],val[2], val[4] )}
+  | target '<=' waveform ';' {result = SignalAssignmentStatement.new(nil,val[0], val[2] );}
+  | target '<=' target ';' {result = SignalAssignmentStatement.new(nil,val[0], val[2] ); ;}
+  | function_call '<=' expression ';' {result = SignalAssignmentStatement.new(nil,val[0], val[2]); ;}
+  | identifier '<=' expression ';' {result = SignalAssignmentStatement.new(nil,val[0], val[2]); ;}
+  | target '<=' identifier ';' {result = SignalAssignmentStatement.new(nil,val[0], val[2] ); ;}
+  | target '<=' function_call ';' {result = SignalAssignmentStatement.new(nil,val[0], val[2] );}
+
+
+
+signal_declaration :
+  SIGNAL identifier_list ':' subtype_indication signal_kind ':=' expression ';' {result = SignalDeclaration.new('SIGNAL', val[1],nil, val[3], val[6]);}
+  | SIGNAL identifier_list ':' subtype_indication ':=' expression ';' {result = SignalDeclaration.new('SIGNAL', val[1],nil, val[3], val[5]);}
+  | SIGNAL identifier_list ':' subtype_indication signal_kind ';' {result = SignalDeclaration.new('SIGNAL', val[1],nil, val[3], nil)}
+  | SIGNAL identifier_list ':' subtype_indication ';' {result = SignalDeclaration.new('SIGNAL', val[1],nil, val[3], nil)}
+
+signal_kind :
+  REGISTER {result = val}
+  | BUS {result = val}
+
+signal_list :
+  signal_name signal_list_loop0 {result = val;}
+  | OTHERS {result = val;}
+  | ALL {result = val}
+
+signal_list_loop0 :
+  ',' signal_name signal_list_loop0 {result = val}
+  | {result = val}
+
+signature :
+  type_mark signature_loop0 RETURN type_mark {result = val}
+  | RETURN type_mark {result = val}
+  | type_mark signature_loop0 {result = val}
+  | {result = val}
+
+signature_loop0 :
+  ',' type_mark signature_loop0 {result = val}
+  | {result = val}
+
+simple_expression :
+  sign term simple_expression_loop0 {result = val;}
+  | term simple_expression_loop0 {result = SimpleExpression.new(nil, val[0], val[1]); }
+  | '(' term simple_expression_loop0 ')' {result = SimpleExpression.new(nil, val[1], val[2], true);}
+  | '(' term ')' simple_expression_loop0 {result = SimpleExpression.new(nil, val[1], val[2], true);}
+
+
+simple_expression_loop0 :
+  adding_operator term simple_expression_loop0 {result = val; }
+  | {result = val;}
+
+slice_name :
+  prefix '(' discrete_range ')' {result = val;}
+
+static_expression :
+  expression {result = val[0]}
+
+subprogram_body :
+  subprogram_specification IS subprogram_declarative_part BEGIN subprogram_statement_part END subprogram_kind designator ';' {result = val}
+  | subprogram_specification IS subprogram_declarative_part BEGIN subprogram_statement_part END designator ';' {result = val}
+  | subprogram_specification IS subprogram_declarative_part BEGIN subprogram_statement_part END subprogram_kind ';' {result = val}
+  | subprogram_specification IS subprogram_declarative_part BEGIN subprogram_statement_part END ';' {result = val}
+
+subprogram_declaration :
+  subprogram_specification ';' {result = val}
+
+subprogram_declarative_part :
+  subprogram_declarative_part_loop0 {result = val}
+
+subprogram_declarative_part_loop0 :
+  process_declarative_item subprogram_declarative_part_loop0 {result = val}
+  | {result = val}
+
+subprogram_kind :
+  PROCEDURE {result = val}
+  | FUNCTION {result = val}
+
+subprogram_specification :
+  PROCEDURE designator '(' formal_parameter_list ')' {result = val}
+  | PROCEDURE designator {result = val}
+  | pure_impure FUNCTION designator '(' formal_parameter_list ')' RETURN type_mark {result = val}
+  | FUNCTION designator '(' formal_parameter_list ')' RETURN type_mark {result = val}
+  | pure_impure FUNCTION designator RETURN type_mark {result = val}
+  | FUNCTION designator RETURN type_mark {result = val}
+
+subprogram_statement_part :
+  subprogram_statement_part_loop0 {result = val}
+
+subprogram_statement_part_loop0 :
+  sequential_statement subprogram_statement_part_loop0 {result = val}
+  | {result = val}
+
+subtype_declaration :
+  SUBTYPE identifier IS subtype_indication ';' {result = val}
+
+subtype_indication :
+  resolution_function_name type_mark constraint {result = val}
+  | type_mark constraint {result = TypeWrapper.new(val[0], nil, false);}
+  | type_mark '(' range_expression ')' {result = TypeWrapper.new(val[0], val[2], false); }
+  | identifier '(' range_expression ')' {result = TypeWrapper.new(val[0], val[2], false);}
+  | resolution_function_name type_mark {result = val; }
+  | type_mark {result = TypeWrapper.new(val[0], nil, false); }
+
+suffix :
+  label {result = val[0]}
+  | CHARACTER_LITERAL {result = CharacterLiteral.new(val[0]);ConstantValueRepository.add(result);}
+  | operator_symbol {result = val[0]}
+  | ALL {result = val[0]}
+
+target :
+  name {result = val[0]; }
+  | aggregate {result = val[0]; }
+
+term :
+  factor term_loop0 {result = val.flatten;}
+  | '(' factor term_loop0 ')' {result = val.flatten;}
+
+term_loop0 :
+  multiplying_operator factor term_loop0 {result = val; binding.pry}
+  | {result = nil;}
+
+timeout_clause :
+  FOR time_expression {result = val}
+
+type_conversion :
+  type_mark '(' expression ')' {result = val}
+
+type_declaration :
+  full_type_declaration {result = val}
+  | incomplete_type_declaration {result = val}
+
+type_definition :
+  scalar_type_definition {result = val}
+  | composite_type_definition {result = val}
+  | access_type_definition {result = val}
+  | file_type_definition {result = val}
+
+type_mark :
+  type_name {result = val[0]}
+  | subtype_name {result = val[0]}
+
+type_name :
+  name {result = val[0]}
+
+unconstrained_array_definition :
+  ARRAY '(' index_subtype_definition unconstrained_array_definition_loop0 ')' OF element_subtype_indication {result = val}
+
+unconstrained_array_definition_loop0 :
+  ',' index_subtype_definition unconstrained_array_definition_loop0 {result = val}
+  | {result = val}
+
+use_clause :
+  USE selected_name use_clause_loop0 ';' {result = UseClauseWrapper.new(val[1,2].flatten.compact);}
+
+use_clause_loop0 :
+  ',' selected_name use_clause_loop0 {result = val}
+  | {result = val[0]}
+
+variable_assignment_statement :
+  LABEL ':' target ':=' expression ';' {result = VariableAssignmentStatement.new(val[0], val[2], val[4])}
+  | target ':=' expression ';' {result = VariableAssignmentStatement.new(nil, val[0], val[2])}
+
+variable_declaration :
+  SHARED VARIABLE identifier_list ':' subtype_indication ':=' expression ';' {result = val}
+  | VARIABLE identifier_list ':' subtype_indication ':=' expression ';' {result = val; }
+  | SHARED VARIABLE identifier_list ':' subtype_indication ';' {result = val}
+  | VARIABLE identifier_list ':' subtype_indication ';' {result = val;}
+
+wait_statement :
+  LABEL ':' WAIT sensitivity_clause condition_clause timeout_clause ';' {result = val}
+  | WAIT sensitivity_clause condition_clause timeout_clause ';' {result = val}
+  | LABEL ':' WAIT condition_clause timeout_clause ';' {result = val}
+  | WAIT condition_clause timeout_clause ';' {result = val}
+  | LABEL ':' WAIT sensitivity_clause timeout_clause ';' {result = val}
+  | WAIT sensitivity_clause timeout_clause ';' {result = val}
+  | LABEL ':' WAIT timeout_clause ';' {result = val}
+  | WAIT timeout_clause ';' {result = val}
+  | LABEL ':' WAIT sensitivity_clause condition_clause ';' {result = val}
+  | WAIT sensitivity_clause condition_clause ';' {result = val}
+  | LABEL ':' WAIT condition_clause ';' {result = val}
+  | WAIT condition_clause ';' {result = val}
+  | LABEL ':' WAIT sensitivity_clause ';' {result = val}
+  | WAIT sensitivity_clause ';' {result = val}
+  | LABEL ':' WAIT ';' {result = val}
+  | WAIT ';' {result = val}
+
+waveform :
+  waveform_element waveform_loop0 {result = val}
+  | UNAFFECTED {result = val}
+
+waveform_element :
+  value_expression AFTER time_expression {result = val}
+  | value_expression {result = val}
+  | identifier {result = val[0];}
+  | function_call {result = val[0];}
+  | NULL AFTER time_expression {result = val}
+  | NULL {result = val}
+
+waveform_loop0 :
+  ',' waveform_element waveform_loop0 {result = val}
+  |  {result = val}
+
+
+racc_goto_pointer = [
+   nil,   155,   159, -1039,  -233,  1376, -1152,  1884,  -540, -1046,
+   nil,  2810,   nil,  2023,   -92,  -108,   -59,    94,  2160,    -2,
+    -9,    -5,   nil,   159,   240,    55,    -8,  -204,  -106,  -252,
+  -342,  -434,  -144,  -142,  -123,   123,   773,   nil,  -949,   nil,
+   nil, -1043,   -48,   108,   171,   nil,   nil,    35,   -44,   -92,
+  -357,   nil,   nil,  -457,  -278,  -656,  -592,  -377,   nil,  -504,
+  -648,    74,   nil,   -39,  -105,   -36,    78,   224,    86,   306,
+   235,   nil,   174,   437,   452,  -977,  -878,  -854,   -21,  -833,
+  -406,   nil, -1115, -1070,   nil, -1025, -1151, -1220,  -538,    44,
+   -23,   -34,   -92,   nil,  -367,  -151,    -8,   nil,  -342,   nil,
+   -12,    -9,  -295,   nil,  -341,   nil,  -525,  -501,   nil,   nil,
+  -428,  1190,  -104,    73,  -774,   731,  -845,  -487,  -931,  -724,
+   422,   173,   nil,  -115,  1770,  -116,    97,  -416,   nil,   432,
+   nil,   nil,   nil,   nil,   nil,   429,   433,  -708,   446,   165,
+   441,  -170,   nil,   306,    90,  -101,  -405,  -211,  -482,  -105,
+  -650,   393,   328,    71,   nil,    -4,  -312,   nil,   397,    51,
+  -468,   nil,  -202,  -474,    42,  -650,   nil,   128,   130,   133,
+   134,   nil,   -61,    54,   -62,  -648,    57,  -784,  -253,   nil,
+    59,     8,  -260,  -968,  -985,  -743,   -79,   nil,  -660,  -209,
+  -838,   127,   nil, -1201,   nil,  -383,  -717,  -643,   nil,    12,
+  -404,    64,   nil,   nil,   nil,   nil,   -19,   nil,  -329,  -205,
+  -480,   487,   489,   490,   nil,   145,   nil,   nil,   nil,   nil,
+   139,   nil,   nil,   nil,  -713,   nil,   495,   368,   nil,     4,
+   440,   nil,   260,   nil,    85,  -742,   nil,   nil,   nil,  -238,
+   799,  -238,  -645,   883,   nil,   nil,  -593,  -624,   nil,  -564,
+   -63,   nil,   nil,    94,   467,  -845, -1300,  -754,   nil,  -450,
+   nil,   nil,   nil,   nil,   -39,   nil,   nil,    55,   -58,    -2,
+   266,   136,  -109,  -456,  -237,  -551,   -17,  -802,  -831,   194,
+  -554,  -846 ]
+
+racc_goto_default = [
+   nil,   nil,   nil,    94,   nil,   nil,  1118,   632,   nil,  1122,
+  1119,   104,   240,   100,   181,   nil,   498,   nil,    97,   nil,
+    82,    35,   103,   101,   nil,    61,   nil,   nil,   nil,  1229,
+   nil,  1436,   nil,   nil,   nil,   782,   nil,   800,  1123,  1121,
+  1128,   nil,   499,   300,   591,    39,    32,    34,   500,   nil,
+   nil,   nil,   nil,   nil,   nil,   617,   618,   945,   624,   nil,
+   nil,   501,   944,   491,   492,   493,   494,   495,   371,   497,
+   375,   378,   379,   502,   503,   nil,  1228,   nil,  1057,   138,
+   nil,   597,   nil,  1435,   806,  1407,   nil,   187,   nil,   186,
+   321,   183,   nil,   946,   nil,   nil,   nil,   598,   nil,   469,
+   nil,   nil,   600,   599,   796,   601,   595,   596,   602,   603,
+   802,    98,   214,    84,   nil,   812,   899,   900,   901,   916,
+   nil,   nil,   390,   nil,   931,   334,   337,   333,     8,     3,
+     4,     5,   nil,   nil,   403,   nil,   nil,  1074,    14,   nil,
+   nil,   nil,   225,   nil,    81,   863,   nil,   715,   nil,   nil,
+   nil,   nil,   nil,   nil,   276,   nil,   nil,   526,   nil,   nil,
+   nil,   487,   nil,    91,   nil,   nil,   809,   197,   198,   199,
+   202,   nil,   113,    86,   nil,   nil,   nil,  1126,   nil,   176,
+   nil,    90,   nil,   nil,   nil,   nil,   nil,   397,   nil,   nil,
+   nil,   250,   805,   nil,   177,   nil,   nil,   nil,    37,   nil,
+   nil,   nil,   402,   399,   400,   401,   405,   409,   nil,   nil,
+   791,   nil,   nil,   nil,    99,   nil,   nil,   807,   nil,   247,
+    56,    38,   808,   811,    95,   496,   nil,   nil,   294,   nil,
+   nil,   167,   nil,   nil,   nil,   nil,  1039,   102,   804,   750,
+   nil,   749,   nil,   nil,   nil,   nil,  1108,  1109,   173,   nil,
+   107,   801,   810,   nil,   nil,   nil,   nil,   nil,   nil,   978,
+   799,   803,   226,   110,   nil,   nil,   nil,   nil,   111,   nil,
+   277,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,
+   911,   nil ]
+
+
+---- header
+require 'strscan'
+require 'stringio'
+require 'pry'
+require_relative 'initializer_repository.rb'
+require_relative 'literal_repository.rb'
+require_relative 'constant_value_repository.rb'
+
+Dir[File.dirname(__FILE__) + '/wrappers/*.rb'].each {|file| require file}
+
+---- inner
+UPPERCASE_LETTERS = 'A-Z'
+DIGITS = '0-9'
+SPECIAL_CHARS = '\s#&\'\(\)*+,-\.\/\:\;<=>\[\]_|'
+SPACE_CHARS = ' '
+
+LOWERCASE_LETTERS = 'a-z'
+OTHER_SPECIAL_CHARS = '!$%@?\\^`{}~'
+FORMAT_EFFECTOR = '\t\x0B\r\n\x0C'
+
+BASIC_GRAPHIC_CHAR = "#{UPPERCASE_LETTERS}#{DIGITS}#{SPECIAL_CHARS}#{SPACE_CHARS}"
+GRAPHIC_CHARS = "#{BASIC_GRAPHIC_CHAR}#{LOWERCASE_LETTERS}#{OTHER_SPECIAL_CHARS}"
+BASIC_CHARS = "#{BASIC_GRAPHIC_CHAR}#{FORMAT_EFFECTOR}"
+
+BASIC_IDENT_RE = /[A-Za-z][A-Za-z0-9_]*/
+EXTENDED_IDENT_RE = /\\([#{GRAPHIC_CHARS}]+)\\/
+
+INTEGER = '[0-9][0-9_]*'
+EXPONENT = 'E[+-]?[0-9][0-9_]*'
+BASED_INTEGER  = '[0-9A-Za-z][0-9A-Za-z_]*'
+BIT_VALUE = '[0-9A-Za-z][0-9A-Za-z_]*'
+
+DECIMAL_LITERAL_RE = /#{INTEGER}(?:\.#{INTEGER})?(?:#{EXPONENT})?/
+BASED_LITERAL_RE = /#{INTEGER}#(?:#{BASED_INTEGER})(?:\.#{BASED_INTEGER})?#(?:#{EXPONENT})?/
+CHAR_LITERAL_RE = /'([#{GRAPHIC_CHARS}])'/
+STRING_LITERAL_RE = /"([#{GRAPHIC_CHARS}]*)"/
+BIT_STRING_LITERAL_RE = /[BOX]"#{BIT_VALUE}"/
+COMMENT_RE = /--.*[\r\n]*/
+
+DELIMITER = '=>|\*\*|:=|\/=|>=|<=|<>|\Z|[&\'()*+,-.\/\:;<=>|\[\]]'
+DELIMITER_RE = /(?:#{DELIMITER})/
+
+def parse(str)
+  @yydebug = true
+  s = StringScanner.new(str)
+  def s.collect_token
+    tokens = []
+    until eos?
+      token = yield(self)
+      tokens << token if token
+    end
+    tokens
+  end
+  @tokens = s.collect_token{|scanner|
+    case
+    when scanner.skip(/\s+/)
+      # ignore
+    when scanner.skip(COMMENT_RE)
+      # ignore
+    when scanner.scan(EXTENDED_IDENT_RE)
+      [:EXTENDED_IDENTIFIER, scanner[1]]
+    when scanner.scan(BASED_LITERAL_RE)
+      [:BASED_LITERAL, scanner[0]]
+    when scanner.scan(DECIMAL_LITERAL_RE)
+      [:DECIMAL_LITERAL, scanner[0]]
+    when scanner.scan(CHAR_LITERAL_RE)
+      [:CHARACTER_LITERAL, scanner[1]]
+    when scanner.scan(STRING_LITERAL_RE)
+      [:STRING_LITERAL, scanner[1]]
+    when scanner.scan(BIT_STRING_LITERAL_RE)
+      [:BIT_STRING_LITERAL, scanner[0]]
+    when scanner.scan(DELIMITER_RE)
+      [scanner[0], scanner[0]]
+    else
+      before = scanner.pos
+      scanner.check_until(/\s|#{DELIMITER}/)
+      v = scanner.pre_match[before..-1]
+      scanner.pos += v.size
+      case v
+      when /^abs$/i then
+        [:ABS, "abs"]
+      when /^access$/i then
+        [:ACCESS, "access"]
+      when /^after$/i then
+        [:AFTER, "after"]
+      when /^alias$/i then
+        [:ALIAS, "alias"]
+      when /^all$/i then
+        [:ALL, "all"]
+      when /^and$/i then
+        [:AND, "and"]
+      when /^arch$/i then
+        [:ARCH, "arch"]
+      when /^architecture$/i then
+        [:ARCHITECTURE, "architecture"]
+      when /^array$/i then
+        [:ARRAY, "array"]
+      when /^assert$/i then
+        [:ASSERT, "assert"]
+      when /^attr$/i then
+        [:ATTR, "attr"]
+      when /^attribute$/i then
+        [:ATTRIBUTE, "attribute"]
+      when /^begin$/i then
+        [:BEGIN, "begin"]
+      when /^block$/i then
+        [:BLOCK, "block"]
+      when /^body$/i then
+        [:BODY, "body"]
+      when /^buffer$/i then
+        [:BUFFER, "buffer"]
+      when /^bus$/i then
+        [:BUS, "bus"]
+      when /^case$/i then
+        [:CASE, "case"]
+      when /^comp$/i then
+        [:COMP, "comp"]
+      when /^component$/i then
+        [:COMPONENT, "component"]
+      when /^cond$/i then
+        [:COND, "cond"]
+      when /^conditional$/i then
+        [:CONDITIONAL, "conditional"]
+      when /^conf$/i then
+        [:CONF, "conf"]
+      when /^configuration$/i then
+        [:CONFIGURATION, "configuration"]
+      when /^cons$/i then
+        [:CONS, "cons"]
+      when /^constant$/i then
+        [:CONSTANT, "constant"]
+      when /^disconnect$/i then
+        [:DISCONNECT, "disconnect"]
+      when /^downto$/i then
+        [:DOWNTO, "downto"]
+      when /^else$/i then
+        [:ELSE, "else"]
+      when /^elseif$/i then
+        [:ELSEIF, "elseif"]
+      when /^elsif$/i then
+        [:ELSIF, "elsif"]
+      when /^end$/i then
+        [:END, "end"]
+      when /^entity$/i then
+        [:ENTITY, "entity"]
+      when /^exit$/i then
+        [:EXIT, "exit"]
+      when /^file$/i then
+        [:FILE, "file"]
+      when /^for$/i then
+        [:FOR, "for"]
+      when /^func$/i then
+        [:FUNC, "func"]
+      when /^function$/i then
+        [:FUNCTION, "function"]
+      when /^generic$/i then
+        [:GENERIC, "generic"]
+      when /^generate$/i then
+        [:GENERATE, "generate"]
+      when /^group$/i then
+        [:GROUP, "group"]
+      when /^guarded$/i then
+        [:GUARDED, "guarded"]
+      when /^if$/i then
+        [:IF, "if"]
+      when /^impure$/i then
+        [:IMPURE, "impure"]
+      when /^in$/i then
+        [:IN, "in"]
+      when /^inertial$/i then
+        [:INERTIAL, "inertial"]
+      when /^inout$/i then
+        [:INOUT, "inout"]
+      when /^inst$/i then
+        [:INST, "inst"]
+      when /^instance$/i then
+        [:INSTANCE, "instance"]
+      when /^is$/i then
+        [:IS, "is"]
+      when /^label$/i then
+        [:LABEL, "label"]
+      when /^library$/i then
+        [:LIBRARY, "library"]
+      when /^linkage$/i then
+        [:LINKAGE, "linkage"]
+      when /^literal$/i then
+        [:LITERAL, "literal"]
+      when /^loop$/i then
+        [:LOOP, "loop"]
+      when /^map$/i then
+        [:MAP, "map"]
+      when /^mod$/i then
+        [:MOD, "mod"]
+      when /^nand$/i then
+        [:NAND, "nand"]
+      when /^new$/i then
+        [:NEW, "new"]
+      when /^next$/i then
+        [:NEXT, "next"]
+      when /^nor$/i then
+        [:NOR, "nor"]
+      when /^not$/i then
+        [:NOT, "not"]
+      when /^null$/i then
+        [:NULL, "null"]
+      when /^of$/i then
+        [:OF, "of"]
+      when /^on$/i then
+        [:ON, "on"]
+      when /^open$/i then
+        [:OPEN, "open"]
+      when /^or$/i then
+        [:OR, "or"]
+      when /^others$/i then
+        [:OTHERS, "others"]
+      when /^out$/i then
+        [:OUT, "out"]
+      when /^pack$/i then
+        [:PACK, "pack"]
+      when /^package$/i then
+        [:PACKAGE, "package"]
+      when /^port$/i then
+        [:PORT, "port"]
+      when /^postponed$/i then
+        [:POSTPONED, "postponed"]
+      when /^procedure$/i then
+        [:PROCEDURE, "procedure"]
+      when /^process$/i then
+        [:PROCESS, "process"]
+      when /^pure$/i then
+        [:PURE, "pure"]
+      when /^range$/i then
+        [:RANGE, "range"]
+      when /^record$/i then
+        [:RECORD, "record"]
+      when /^register$/i then
+        [:REGISTER, "register"]
+      when /^reject$/i then
+        [:REJECT, "reject"]
+      when /^rem$/i then
+        [:REM, "rem"]
+      when /^report$/i then
+        [:REPORT, "report"]
+      when /^return$/i then
+        [:RETURN, "return"]
+      when /^rol$/i then
+        [:ROL, "rol"]
+      when /^ror$/i then
+        [:ROR, "ror"]
+      when /^select$/i then
+        [:SELECT, "select"]
+      when /^severity$/i then
+        [:SEVERITY, "severity"]
+      when /^shared$/i then
+        [:SHARED, "shared"]
+      when /^sig$/i then
+        [:SIG, "sig"]
+      when /^signal$/i then
+        [:SIGNAL, "signal"]
+      when /^sla$/i then
+        [:SLA, "sla"]
+      when /^sll$/i then
+        [:SLL, "sll"]
+      when /^sra$/i then
+        [:SRA, "sra"]
+      when /^srl$/i then
+        [:SRL, "srl"]
+      when /^subtype$/i then
+        [:SUBTYPE, "subtype"]
+      when /^then$/i then
+        [:THEN, "then"]
+      when /^to$/i then
+        [:TO, "to"]
+      when /^transport$/i then
+        [:TRANSPORT, "transport"]
+      when /^type$/i then
+        [:TYPE, "type"]
+      when /^unaffected$/i then
+        [:UNAFFECTED, "unaffected"]
+      when /^units$/i then
+        [:UNITS, "units"]
+      when /^until$/i then
+        [:UNTIL, "until"]
+      when /^use$/i then
+        [:USE, "use"]
+      when /^var$/i then
+        [:VAR, "var"]
+      when /^variable$/i then
+        [:VARIABLE, "variable"]
+      when /^wait$/i then
+        [:WAIT, "wait"]
+      when /^when$/i then
+        [:WHEN, "when"]
+      when /^while$/i then
+        [:WHILE, "while"]
+      when /^with$/i then
+        [:WITH, "with"]
+      when /^xnor$/i then
+        [:XNOR, "xnor"]
+      when /^xor$/i then
+        [:XOR, "xor"]
+      else
+        [:BASIC_IDENTIFIER, v]
+      end
+    end
+  }
+  @tokens.each_index.select {|i| @tokens[i][0] == :PROCESS}.each do |process_index|
+    if @tokens[process_index-2][0] == :BASIC_IDENTIFIER && @tokens[process_index-1][0] == ':'
+      @tokens[process_index-2][0] = :PROCESS_NAME
+    end
+  end
+  do_parse
+end
+
+def next_token
+  @tokens.shift
+end
+
+---- footer
+VERSION = '0.3.2';
+parser = VHDLParser::new
+begin
+  if ARGV.length == 0
+    usage = <<DOCOPT
+      Vhdl obfuscator v.#{VERSION}
+      Eugene Shadura. Belarussian State University of Informatics and Radioelectronics
+
+      Usage:
+      ruby #{__FILE__} -i <path to input file>...
+      ruby #{__FILE__} -i <path to input file> -a
+      ruby #{__FILE__} -i <path to input file> -o <path to output file>
+      ruby #{__FILE__} -i <path to input file> [—-lexical-only | --functional-only]
+      ruby #{__FILE__} -h | —help
+      ruby #{__FILE__} —version
+
+      Options:
+      -h —help Show this screen.
+      —version Show version.
+      -i select input file
+      -a analyze code correctness without obfuscation
+      -o print result to file
+      —-lexical-only obfuscate literal names only without adding complexity to RTL level
+      --functional-only obfuscale RTL level synthesis by adding primitives without changing literal names
+
+DOCOPT
+    puts usage
+  else
+    if ARGV.include? '-i'
+      if ARGV.include? '-a'
+        puts "Starting code checking..."
+      end
+      $lexical_obfuscation_mode = true
+      ast = parser.parse(open(ARGV[1]).read)
+      unless ARGV.include? '-a'
+        puts ast
+      else
+        ast[0].statements.select{|el| el.class.name=="EntityDeclaration"}.each do |entity|
+          puts "Code check for entity '#{entity.name.name}' completed."
+        end
+        puts "Code correct"
+      end
+    end
+  end
+rescue ParseError => e
+puts $!
+end
+
+
+  \end{lstlisting}
+
+
