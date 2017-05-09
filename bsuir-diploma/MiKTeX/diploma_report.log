@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.4.3)  24 APR 2017 18:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.4.3)  9 MAY 2017 14:29
 entering extended mode
 **./diploma_report.tex
 (diploma_report.tex
@@ -2122,36 +2122,27 @@ Package babel Info: Redefining russian shorthand "|
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 1.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 112.
+(babel)             in language  on input line 139.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 112.
+(babel)             in language  on input line 139.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 112.
+(babel)             in language  on input line 139.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 112.
+(babel)             in language  on input line 139.
  [44
 
 
 
 ]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 112.
+(babel)             in language  on input line 139.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 112.
+(babel)             in language  on input line 139.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 112.
+(babel)             in language  on input line 139.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 112.
- [45]
-Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 120.
-Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 120.
-Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 120.
-Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 120.
- [46])
+(babel)             in language  on input line 139.
+ [45])
 Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 11.
 Package babel Info: Redefining russian shorthand "~
@@ -2160,17 +2151,17 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 11.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 11.
-
-[47]
+ [46]
 \openout2 = `sec_usage.aux'.
 
- (sec_usage.tex
+
+(sec_usage.tex
 Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 1.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 1.
 
-<figures/analyze_success.jpg, id=759, 799.48688pt x 112.16907pt>
+<figures/analyze_success.jpg, id=753, 799.48688pt x 112.16907pt>
 File: figures/analyze_success.jpg Graphic file (type jpg)
 
 <use figures/analyze_success.jpg>
@@ -2181,7 +2172,7 @@ Overfull \hbox (50.18982pt too wide) in paragraph at lines 9--10
  [][] 
  []
 
-<figures/analyze_error.jpg, id=760, 735.49782pt x 109.1578pt>
+<figures/analyze_error.jpg, id=754, 735.49782pt x 109.1578pt>
 File: figures/analyze_error.jpg Graphic file (type jpg)
 
 <use figures/analyze_error.jpg>
@@ -2200,12 +2191,12 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 37.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 37.
-[48
+[47
 
 
 
  <./figures/analyze_success.jpg> <./figures/analyze_error.jpg>]
-<figures/without_args.jpg, id=768, 1191.7022pt x 441.90094pt>
+<figures/without_args.jpg, id=762, 1191.7022pt x 441.90094pt>
 File: figures/without_args.jpg Graphic file (type jpg)
 
 <use figures/without_args.jpg>
@@ -2224,11 +2215,11 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 37.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 37.
-[49
+[48
 
 
  <./figures/without_args.jpg>]
-<figures/without_output.jpg, id=773, 2563.5775pt x 1395.2125pt>
+<figures/without_output.jpg, id=767, 2563.5775pt x 1395.2125pt>
 File: figures/without_output.jpg Graphic file (type jpg)
 
 <use figures/without_output.jpg>
@@ -2242,7 +2233,7 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 45.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 45.
- [50 <./figures/without_output.jpg>])
+ [49 <./figures/without_output.jpg>])
 \openout2 = `sec_econ.aux'.
 
 
@@ -2288,7 +2279,7 @@ Package babel Info: Redefining russian shorthand "~
 ) ( FP-EVAL ( FP-UPN ( FP-DIV ) ( FP-SUB ) ( FP-MUL ) ( FP-CLIP ) ) )
 ( FP-ROUND )
 
-Package natbib Warning: Citation `palicyn_2006' on page 51 undefined on input l
+Package natbib Warning: Citation `palicyn_2006' on page 50 undefined on input l
 ine 130.
 
 Package babel Info: Redefining russian shorthand "|
@@ -2296,7 +2287,7 @@ Package babel Info: Redefining russian shorthand "|
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 132.
 
-Package natbib Warning: Citation `palicyn_2006' on page 51 undefined on input l
+Package natbib Warning: Citation `palicyn_2006' on page 50 undefined on input l
 ine 216.
 
 Package babel Info: Redefining russian shorthand "|
@@ -2307,7 +2298,7 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 222.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 222.
-[51
+[50
 
 
 
@@ -2325,7 +2316,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 225--230
  []
 
 
-Package natbib Warning: Citation `palicyn_2006' on page 52 undefined on input l
+Package natbib Warning: Citation `palicyn_2006' on page 51 undefined on input l
 ine 232.
 
 Package babel Info: Redefining russian shorthand "|
@@ -2336,7 +2327,7 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 233.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 233.
-[52]
+[51]
 Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 305.
 Package babel Info: Redefining russian shorthand "~
@@ -2349,7 +2340,7 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 311.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 311.
- [53]
+ [52]
 Overfull \hbox (3.2832pt too wide) in paragraph at lines 317--323
  [] 
  []
@@ -2370,15 +2361,15 @@ Underfull \hbox (badness 10000) in paragraph at lines 328--333
  []
 
 
-Package natbib Warning: Citation `palicyn_2006' on page 54 undefined on input l
+Package natbib Warning: Citation `palicyn_2006' on page 53 undefined on input l
 ine 334.
 
 
-Package natbib Warning: Citation `palicyn_2006' on page 54 undefined on input l
+Package natbib Warning: Citation `palicyn_2006' on page 53 undefined on input l
 ine 340.
 
 
-Package natbib Warning: Citation `palicyn_2006' on page 54 undefined on input l
+Package natbib Warning: Citation `palicyn_2006' on page 53 undefined on input l
 ine 343.
 
 Package babel Info: Redefining russian shorthand "|
@@ -2389,7 +2380,7 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 355.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 355.
-[54]
+[53]
 Overfull \hbox (3.2832pt too wide) in paragraph at lines 355--361
  [] 
  []
@@ -2410,7 +2401,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 370--377
  []
 
 
-Package natbib Warning: Citation `belcalendar_2016' on page 55 undefined on inp
+Package natbib Warning: Citation `belcalendar_2016' on page 54 undefined on inp
 ut line 378.
 
 Package babel Info: Redefining russian shorthand "|
@@ -2425,7 +2416,7 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 420.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 420.
-[55]
+[54]
 Overfull \hbox (3.2832pt too wide) in paragraph at lines 420--426
  [] 
  []
@@ -2453,7 +2444,7 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 464.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 464.
-[56]
+[55]
 Overfull \hbox (3.2832pt too wide) in paragraph at lines 469--473
  [] 
  []
@@ -2526,7 +2517,7 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 575.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 575.
-[57]
+[56]
 Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 577.
 Package babel Info: Redefining russian shorthand "~
@@ -2549,7 +2540,7 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 593.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 593.
-[58]
+[57]
 Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 678.
 Package babel Info: Redefining russian shorthand "~
@@ -2563,16 +2554,16 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 16.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 16.
+ [58]
+Package babel Info: Redefining russian shorthand "|
+(babel)             in language  on input line 16.
+Package babel Info: Redefining russian shorthand "~
+(babel)             in language  on input line 16.
+Package babel Info: Redefining russian shorthand "|
+(babel)             in language  on input line 16.
+Package babel Info: Redefining russian shorthand "~
+(babel)             in language  on input line 16.
  [59]
-Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 16.
-Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 16.
-Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 16.
-Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 16.
- [60]
 \openout2 = `sec_final.aux'.
 
  (sec_final.tex
@@ -2589,7 +2580,7 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 18.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 18.
- [61
+ [60
 
 
 
@@ -2613,7 +2604,7 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 61.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 61.
- [62
+ [61
 
 
 ]
@@ -2625,98 +2616,98 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 100.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 100.
+ [62]
+Package babel Info: Redefining russian shorthand "|
+(babel)             in language  on input line 148.
+Package babel Info: Redefining russian shorthand "~
+(babel)             in language  on input line 148.
+Package babel Info: Redefining russian shorthand "|
+(babel)             in language  on input line 148.
+Package babel Info: Redefining russian shorthand "~
+(babel)             in language  on input line 148.
  [63]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 148.
+(babel)             in language  on input line 199.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 148.
+(babel)             in language  on input line 199.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 148.
+(babel)             in language  on input line 199.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 148.
+(babel)             in language  on input line 199.
  [64]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 199.
+(babel)             in language  on input line 236.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 199.
+(babel)             in language  on input line 236.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 199.
+(babel)             in language  on input line 236.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 199.
+(babel)             in language  on input line 236.
  [65]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 236.
+(babel)             in language  on input line 275.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 236.
+(babel)             in language  on input line 275.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 236.
+(babel)             in language  on input line 275.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 236.
+(babel)             in language  on input line 275.
  [66]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 275.
+(babel)             in language  on input line 324.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 275.
+(babel)             in language  on input line 324.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 275.
+(babel)             in language  on input line 324.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 275.
+(babel)             in language  on input line 324.
  [67]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 324.
+(babel)             in language  on input line 365.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 324.
+(babel)             in language  on input line 365.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 324.
+(babel)             in language  on input line 365.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 324.
+(babel)             in language  on input line 365.
  [68]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 365.
+(babel)             in language  on input line 416.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 365.
+(babel)             in language  on input line 416.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 365.
+(babel)             in language  on input line 416.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 365.
+(babel)             in language  on input line 416.
  [69]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 416.
+(babel)             in language  on input line 467.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 416.
+(babel)             in language  on input line 467.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 416.
+(babel)             in language  on input line 467.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 416.
+(babel)             in language  on input line 467.
  [70]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 467.
+(babel)             in language  on input line 503.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 467.
+(babel)             in language  on input line 503.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 467.
+(babel)             in language  on input line 503.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 467.
+(babel)             in language  on input line 503.
  [71]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 503.
+(babel)             in language  on input line 557.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 503.
+(babel)             in language  on input line 557.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 503.
+(babel)             in language  on input line 557.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 503.
+(babel)             in language  on input line 557.
  [72]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 557.
-Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 557.
-Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 557.
-Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 557.
- [73]
-Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 608.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 608.
@@ -2725,7 +2716,7 @@ Package babel Info: Redefining russian shorthand "|
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 608.
 
-[74]
+[73]
 Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 657.
 Package babel Info: Redefining russian shorthand "~
@@ -2734,124 +2725,124 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 657.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 657.
+ [74]
+Package babel Info: Redefining russian shorthand "|
+(babel)             in language  on input line 700.
+Package babel Info: Redefining russian shorthand "~
+(babel)             in language  on input line 700.
+Package babel Info: Redefining russian shorthand "|
+(babel)             in language  on input line 700.
+Package babel Info: Redefining russian shorthand "~
+(babel)             in language  on input line 700.
  [75]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 700.
+(babel)             in language  on input line 734.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 700.
+(babel)             in language  on input line 734.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 700.
+(babel)             in language  on input line 734.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 700.
+(babel)             in language  on input line 734.
  [76]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 734.
+(babel)             in language  on input line 783.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 734.
+(babel)             in language  on input line 783.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 734.
+(babel)             in language  on input line 783.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 734.
+(babel)             in language  on input line 783.
  [77]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 783.
+(babel)             in language  on input line 817.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 783.
+(babel)             in language  on input line 817.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 783.
+(babel)             in language  on input line 817.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 783.
+(babel)             in language  on input line 817.
  [78]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 817.
+(babel)             in language  on input line 854.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 817.
+(babel)             in language  on input line 854.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 817.
+(babel)             in language  on input line 854.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 817.
+(babel)             in language  on input line 854.
  [79]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 854.
+(babel)             in language  on input line 903.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 854.
+(babel)             in language  on input line 903.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 854.
+(babel)             in language  on input line 903.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 854.
+(babel)             in language  on input line 903.
  [80]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 903.
+(babel)             in language  on input line 952.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 903.
+(babel)             in language  on input line 952.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 903.
+(babel)             in language  on input line 952.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 903.
+(babel)             in language  on input line 952.
  [81]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 952.
+(babel)             in language  on input line 1001.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 952.
+(babel)             in language  on input line 1001.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 952.
+(babel)             in language  on input line 1001.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 952.
+(babel)             in language  on input line 1001.
  [82]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1001.
+(babel)             in language  on input line 1051.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1001.
+(babel)             in language  on input line 1051.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1001.
+(babel)             in language  on input line 1051.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1001.
+(babel)             in language  on input line 1051.
  [83]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1051.
+(babel)             in language  on input line 1085.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1051.
+(babel)             in language  on input line 1085.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1051.
+(babel)             in language  on input line 1085.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1051.
+(babel)             in language  on input line 1085.
  [84]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1085.
+(babel)             in language  on input line 1103.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1085.
+(babel)             in language  on input line 1103.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1085.
+(babel)             in language  on input line 1103.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1085.
+(babel)             in language  on input line 1103.
  [85]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1103.
+(babel)             in language  on input line 1121.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1103.
+(babel)             in language  on input line 1121.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1103.
+(babel)             in language  on input line 1121.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1103.
+(babel)             in language  on input line 1121.
  [86]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1121.
+(babel)             in language  on input line 1142.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1121.
+(babel)             in language  on input line 1142.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1121.
+(babel)             in language  on input line 1142.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1121.
+(babel)             in language  on input line 1142.
  [87]
-Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1142.
-Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1142.
-Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1142.
-Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1142.
- [88]
 Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 1188.
 Package babel Info: Redefining russian shorthand "~
@@ -2861,7 +2852,7 @@ Package babel Info: Redefining russian shorthand "|
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 1188.
 
-[89]
+[88]
 Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 1241.
 Package babel Info: Redefining russian shorthand "~
@@ -2870,115 +2861,115 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 1241.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 1241.
+ [89]
+Package babel Info: Redefining russian shorthand "|
+(babel)             in language  on input line 1288.
+Package babel Info: Redefining russian shorthand "~
+(babel)             in language  on input line 1288.
+Package babel Info: Redefining russian shorthand "|
+(babel)             in language  on input line 1288.
+Package babel Info: Redefining russian shorthand "~
+(babel)             in language  on input line 1288.
  [90]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1288.
+(babel)             in language  on input line 1331.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1288.
+(babel)             in language  on input line 1331.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1288.
+(babel)             in language  on input line 1331.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1288.
+(babel)             in language  on input line 1331.
  [91]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1331.
+(babel)             in language  on input line 1376.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1331.
+(babel)             in language  on input line 1376.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1331.
+(babel)             in language  on input line 1376.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1331.
+(babel)             in language  on input line 1376.
  [92]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1376.
+(babel)             in language  on input line 1426.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1376.
+(babel)             in language  on input line 1426.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1376.
+(babel)             in language  on input line 1426.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1376.
+(babel)             in language  on input line 1426.
  [93]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1426.
+(babel)             in language  on input line 1471.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1426.
+(babel)             in language  on input line 1471.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1426.
+(babel)             in language  on input line 1471.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1426.
+(babel)             in language  on input line 1471.
  [94]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1471.
+(babel)             in language  on input line 1524.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1471.
+(babel)             in language  on input line 1524.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1471.
+(babel)             in language  on input line 1524.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1471.
+(babel)             in language  on input line 1524.
  [95]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1524.
+(babel)             in language  on input line 1575.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1524.
+(babel)             in language  on input line 1575.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1524.
+(babel)             in language  on input line 1575.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1524.
+(babel)             in language  on input line 1575.
  [96]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1575.
+(babel)             in language  on input line 1627.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1575.
+(babel)             in language  on input line 1627.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1575.
+(babel)             in language  on input line 1627.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1575.
+(babel)             in language  on input line 1627.
  [97]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1627.
+(babel)             in language  on input line 1680.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1627.
+(babel)             in language  on input line 1680.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1627.
+(babel)             in language  on input line 1680.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1627.
+(babel)             in language  on input line 1680.
  [98]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1680.
+(babel)             in language  on input line 1733.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1680.
+(babel)             in language  on input line 1733.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1680.
+(babel)             in language  on input line 1733.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1680.
+(babel)             in language  on input line 1733.
  [99]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1733.
+(babel)             in language  on input line 1786.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1733.
+(babel)             in language  on input line 1786.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1733.
+(babel)             in language  on input line 1786.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1733.
+(babel)             in language  on input line 1786.
  [100]
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1786.
+(babel)             in language  on input line 1839.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1786.
+(babel)             in language  on input line 1839.
 Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1786.
+(babel)             in language  on input line 1839.
 Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1786.
+(babel)             in language  on input line 1839.
  [101]
-Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1839.
-Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1839.
-Package babel Info: Redefining russian shorthand "|
-(babel)             in language  on input line 1839.
-Package babel Info: Redefining russian shorthand "~
-(babel)             in language  on input line 1839.
- [102]
 
 ! Package inputenc Error: Unicode char â\lst@EC€\lst@EC” (U+282DD4)
 (inputenc)                not set up for use with LaTeX.
@@ -3058,7 +3049,7 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 1888.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 1888.
-[103]
+[102]
 
 ! Package inputenc Error: Unicode char â\lst@EC€\lst@EC” (U+282DD4)
 (inputenc)                not set up for use with LaTeX.
@@ -3088,7 +3079,7 @@ Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 33.
 Package babel Info: Redefining russian shorthand "~
 (babel)             in language  on input line 33.
-[104]
+[103]
 Package babel Info: Redefining russian shorthand "|
 (babel)             in language  on input line 33.
 Package babel Info: Redefining russian shorthand "~
@@ -3112,10 +3103,10 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 33.
  ) 
 Here is how much of TeX's memory you used:
- 22612 strings out of 493333
- 321900 string characters out of 3139198
- 753720 words of memory out of 10000000
- 23179 multiletter control sequences out of 15000+200000
+ 22608 strings out of 493333
+ 321846 string characters out of 3139198
+ 753564 words of memory out of 10000000
+ 23177 multiletter control sequences out of 15000+200000
  24273 words of font info for 58 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  39i,21n,49p,1829b,2011s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -3139,9 +3130,9 @@ fb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/pscyr/ercour.pfb><C:/Program
  Files/MiKTeX 2.9/fonts/type1/public/pscyr/times.pfb><C:/Program Files/MiKTeX 2
 .9/fonts/type1/public/pscyr/timesbd.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
 1/public/pscyr/timesi.pfb>
-Output written on diploma_report.pdf (102 pages, 3332592 bytes).
+Output written on diploma_report.pdf (101 pages, 3331081 bytes).
 PDF statistics:
- 3481 PDF objects out of 3580 (max. 8388607)
- 2431 named destinations out of 2487 (max. 500000)
+ 3474 PDF objects out of 3580 (max. 8388607)
+ 2429 named destinations out of 2487 (max. 500000)
  361 words of extra memory for PDF output out of 10000 (max. 10000000)
 
