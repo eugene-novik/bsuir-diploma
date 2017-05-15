@@ -1,0 +1,6 @@
+org\jazzteam\model\serializer\LikeHouseManagerTest.class
+org\jazzteam\model\serializer\StoryManagerTest.class
+org\jazzteam\model\serializer\ApartmentManagerTest.class
+org\jazzteam\model\serializer\UserManagerTest.class
+org\jazzteam\model\serializer\ImageManagerTest.class
+org\jazzteam\model\serializer\CommentManagerTest.class
