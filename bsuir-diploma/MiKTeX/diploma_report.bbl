@@ -1,0 +1,18 @@
+\begin{thebibliography}{1}
+\def\selectlanguageifdefined#1{
+\expandafter\ifx\csname date#1\endcsname\relax
+\else\language\csname l@#1\endcsname\fi}
+\ifx\undefined\url\def\url#1{{\small #1}}\else\fi
+\ifx\undefined\BibUrl\def\BibUrl#1{\url{#1}}\else\fi
+\ifx\undefined\BibAnnote\long\def\BibAnnote#1{}\else\fi
+\ifx\undefined\BibEmph\def\BibEmph#1{#1}\else\fi
+
+\bibitem{java_book}
+\selectlanguageifdefined{russian}
+\BibEmph{Хорстманн~К.,~Корнелл~Г.} Java. Библиотека
+  профессионала. Том 1. Основы~/
+  Корнелл~Г.~Хорстманн~К. ---
+\newblock Вильямс~, 2016. ---
+\newblock 866~{с.}
+
+\end{thebibliography}
